@@ -1,13 +1,14 @@
 """
-    function mincost_flow(g::AbstractGraph,
-    		node_demand::AbstractVector,
-    		edge_capacity::AbstractMatrix,
-    		edge_cost::AbstractMatrix,
-    		optimizer;
-    		edge_demand::Union{Nothing,AbstractMatrix} = nothing,
-    		source_nodes = (),
-    		sink_nodes = ()
-    		)
+    minimum_cost_flow(
+        g::AbstractGraph,
+        node_demand::AbstractVector,
+        edge_capacity::AbstractMatrix,
+        edge_cost::AbstractMatrix,
+        optimizer;
+        edge_demand::Union{Nothing,AbstractMatrix} = nothing,
+        source_nodes = (),
+        sink_nodes = ()
+    )
 
 Find a flow over a directed graph `g` satisfying the `node_demand` at each
 node and `edge_capacity` constraints for each edge while minimizing `dot(edge_cost, flow)`.
@@ -31,12 +32,12 @@ positive for sink nodes, and zero for all other nodes.
 
 `source_nodes` & `sink_nodes` are only needed when nodal flow are not explictly set in node_demand
 
-### Usage Example:
+# Examples
 
 ```julia
 julia> import Graphs
 julia> using GraphsFlows: mincost_flow
-julia> import Clp # use your favorite LP solver here
+julia> import GLPK # use your favorite LP solver here
 julia> using SparseArrays: spzeros
 julia> g = Graphs.DiGraph(6) # Create a flow-graph
 julia> Graphs.add_edge!(g, 5, 1)
@@ -56,50 +57,56 @@ julia> demand = spzeros(6)
 julia> demand[5] = -2
 julia> demand[6] = 2
 julia> capacity = ones(6,6)
-julia> flow = mincost_flow(g, demand, capacity, cost, Clp.Optimizer)
+julia> flow = minimum_cost_flow(g, demand, capacity, cost, optimizer=GLPK.Optimizer)
 ```
 """
-function mincost_flow end
+@traitfn function minimum_cost_flow(
+    g::AG::Graphs.IsDirected,
+    node_demand::AbstractVector,
+    edge_capacity::AbstractMatrix,
+    edge_cost::AbstractMatrix;
+    optimizer,
+    edge_demand::Union{Nothing,AbstractMatrix}=nothing,
+    source_nodes=(), # Source nodes at which to allow a netflow greater than nodal demand
+    sink_nodes=(),   # Sink nodes at which to allow a netflow less than nodal demand
+) where {AG<:Graphs.AbstractGraph}
+    m = JuMP.Model(optimizer)
+    vtxs = vertices(g)
 
-@traitfn function mincost_flow(g::AG::Graphs.IsDirected,
-		node_demand::AbstractVector,
-		edge_capacity::AbstractMatrix,
-		edge_cost::AbstractMatrix,
-		optimizer;
-		edge_demand::Union{Nothing,AbstractMatrix} = nothing,
-		source_nodes = (), # Source nodes at which to allow a netflow greater than nodal demand
-		sink_nodes = ()	   # Sink nodes at which to allow a netflow less than nodal demand
-		) where {AG <: Graphs.AbstractGraph}
+    source_nodes = [v for v in vtxs if v in source_nodes || node_demand[v] < 0]
+    sink_nodes = [v for v in vtxs if v in sink_nodes || node_demand[v] > 0]
 
-	m = JuMP.Model(optimizer)
-	vtxs = vertices(g)
+    @variable(m, 0 <= f[i=vtxs, j=vtxs; (i, j) in Graphs.edges(g)] <= edge_capacity[i, j])
+    @objective(
+        m, Min, sum(f[src(e), dst(e)] * edge_cost[src(e), dst(e)] for e in Graphs.edges(g))
+    )
 
-	source_nodes = [v for v in vtxs if v in source_nodes || node_demand[v] < 0]
-	sink_nodes = [v for v in vtxs if v in sink_nodes || node_demand[v] > 0]
-
-	@variable(m, 0 <= f[i=vtxs,j=vtxs; (i,j) in Graphs.edges(g)] <= edge_capacity[i, j])
-	@objective(m, Min, sum(f[src(e),dst(e)] * edge_cost[src(e), dst(e)] for e in Graphs.edges(g)))
-
-	for v in Graphs.vertices(g)
-	    if v in source_nodes
-            @constraint(m,
-                sum(f[v, vout] for vout in outneighbors(g, v)) - sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) >= -node_demand[v]
+    for v in Graphs.vertices(g)
+        if v in source_nodes
+            @constraint(
+                m,
+                sum(f[v, vout] for vout in outneighbors(g, v)) -
+                sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) >= -node_demand[v]
             )
-	    elseif v in sink_nodes
-            @constraint(m,
-                sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) - sum(f[v, vout] for vout in outneighbors(g, v)) >= node_demand[v]
+        elseif v in sink_nodes
+            @constraint(
+                m,
+                sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) -
+                sum(f[v, vout] for vout in outneighbors(g, v)) >= node_demand[v]
             )
-	    else
-            @constraint(m,
-                sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) == sum(f[v, vout] for vout in outneighbors(g, v))
+        else
+            @constraint(
+                m,
+                sum(f[vin, v] for vin in Graphs.inneighbors(g, v)) ==
+                    sum(f[v, vout] for vout in outneighbors(g, v))
             )
         end
-	end
+    end
 
     if edge_demand isa AbstractMatrix
         for e in Graphs.edges(g)
-            (i,j) = Tuple(e)
-            JuMP.set_lower_bound(f[i,j], edge_demand[i,j])
+            (i, j) = Tuple(e)
+            JuMP.set_lower_bound(f[i, j], edge_demand[i, j])
         end
     end
     optimize!(m)
@@ -110,8 +117,8 @@ function mincost_flow end
         return result_flow
     end
     for e in Graphs.edges(g)
-        (i,j) = Tuple(e)
-        result_flow[i,j] = JuMP.value(f[i,j])
+        (i, j) = Tuple(e)
+        result_flow[i, j] = JuMP.value(f[i, j])
     end
     return result_flow
 end

@@ -6,5 +6,6 @@ using SparseArrays
 using Test
 
 @testset verbose = true "GraphsOptim.jl" begin
-    include("mincost_flow.jl")
+    include("minimum_cost_flow.jl")
+    include("maximum_weight_matching.jl")
 end
