@@ -1,6 +1,10 @@
+using GLPK
+using Graphs
 using GraphsOptim
+using LinearAlgebra
+using SparseArrays
 using Test
 
-@testset "GraphsOptim.jl" begin
-    # Write your tests here.
+@testset verbose = true "GraphsOptim.jl" begin
+    include("mincost_flow.jl")
 end
