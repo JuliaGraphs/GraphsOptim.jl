@@ -12,6 +12,7 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://gdalle.github.io/GraphsOptim.jl",
         assets=String[],
+        edit_branch="main",
     ),
     pages=[
         "Home" => "index.md",
