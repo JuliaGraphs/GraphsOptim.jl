@@ -147,5 +147,5 @@ function faq(A::AbstractMatrix{U},B::AbstractMatrix{U};optimizer,max_iter::Int64
         P_i=P_new
     end
     P=_solve_assignment_problem(P_i,optimizer=optimizer)
-    return P, distance(A,B,P), converged
+    return P, _distance(A,B,P), converged
 end
