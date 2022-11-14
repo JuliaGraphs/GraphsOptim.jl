@@ -123,7 +123,7 @@ function _check_convergence(gradient::AbstractMatrix{U},P_i::AbstractMatrix{V},P
 end
 
 """
-    faq(A,B;max_iter=30,tol=0.1)
+    faq(A,B;optimizer,max_iter=30,tol=0.1,init+=_flat_doubly_stochastic(size(A)[1]))
 
 Given the adjacency matrix of two graphs, compute the alignment between them.
 Ref: [Algorithm 3](https://arxiv.org/pdf/2111.05366.pdf)
@@ -133,7 +133,7 @@ A JuMP-compatible solver must be provided with the `optimizer` argument.
 Optional arguments:
     - `max_iter`: maximum of iteration of the gradient descent method, default value is 30.
     - `tol`: tolerance for the convergence, default value is 0.1.
-    - `init`: initialization matrix of the gradient descent method.
+    - `init`: initialization matrix of the gradient descent method, default value is a doubly stochastic matrix.
 
 """
 function faq(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64=30,tol::Float64=0.1,init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1])) where {U<:Real,V<:Real,T<:Real}
