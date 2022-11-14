@@ -16,7 +16,7 @@ function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
     check_doubly_stochastic(A) #check that rows and colums sum to 1
 end
 
-@testset "FAQ algorithm" begin
+@testset "GOAT algorithm" begin
     I3=[1 0 0; 0 1 0; 0 0 1]
     @testset "flat doubly stochastic"   begin
         n=5
@@ -61,13 +61,13 @@ end
         @test _update_P(P,Q,0.)==Q
     end;
 
-    @testset "FAQ" begin
-        P,_,_=faq(rand(5,5),rand(5,5),optimizer=GLPK.Optimizer)
+    @testset "GOAT" begin
+        P,_,_=goat(rand(5,5),rand(5,5),optimizer=GLPK.Optimizer)
         check_doubly_stochastic(P)
         @testset "empty graphs" begin
             A=adjacency_matrix(SimpleGraph(5))
             B=adjacency_matrix(SimpleGraph(5))
-            _,norm,converged=faq(A,B,optimizer=GLPK.Optimizer)
+            _,norm,converged=goat(A,B,optimizer=GLPK.Optimizer)
             @test norm==0.
             @test converged
         end
@@ -80,7 +80,7 @@ end
             P[4,5]=1
             P[5,4]=1
             B=P*A*P'
-            P_res,norm,converged=faq(A,B,optimizer=HiGHS.Optimizer)
+            P_res,norm,converged=goat(A,B,optimizer=HiGHS.Optimizer)
             @test P_res==P
             @test norm==0.
             @test converged
@@ -88,7 +88,7 @@ end
         @testset "two path and complete graph" begin
             A=adjacency_matrix(path_graph(3))
             B=adjacency_matrix(complete_graph(3))
-            _,norm,converged=faq(A,B,optimizer=HiGHS.Optimizer)
+            _,norm,converged=goat(A,B,optimizer=HiGHS.Optimizer)
             @test norm==sqrt(2)
             @test converged
         end

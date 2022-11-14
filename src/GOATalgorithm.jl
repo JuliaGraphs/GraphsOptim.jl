@@ -123,7 +123,7 @@ function _check_convergence(gradient::AbstractMatrix{U},P_i::AbstractMatrix{V},P
 end
 
 """
-    faq(A,B;optimizer,max_iter=30,tol=0.1,init+=_flat_doubly_stochastic(size(A)[1]))
+    goat(A,B;optimizer,max_iter=30,tol=0.1,init+=_flat_doubly_stochastic(size(A)[1]))
 
 Given the adjacency matrix of two graphs, compute the alignment between them.
 Ref: [Algorithm 3](https://arxiv.org/pdf/2111.05366.pdf)
@@ -136,7 +136,7 @@ Optional arguments:
     - `init`: initialization matrix of the gradient descent method, default value is a doubly stochastic matrix.
 
 """
-function faq(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64=30,tol::Float64=0.1,init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1])) where {U<:Real,V<:Real,T<:Real}
+function goat(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64=30,tol::Float64=0.1,init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1])) where {U<:Real,V<:Real,T<:Real}
     P_i=init
     converged=false
     for _ in 1:max_iter
