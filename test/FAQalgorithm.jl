@@ -30,7 +30,7 @@ end
         A=A+A'
         B=rand(5,5)
         B=B+B'
-        P=float.(Matrix(I(5)))
+        P=float.(Matrix(I(5))) #float because matrix of bool
         @test _gradient(A,B,P)==-2*A*P*B
         @test _gradient(zeros(5,5),zeros(5,5),zeros(5,5))==zeros(5,5)
     end;
@@ -72,7 +72,7 @@ end
             @test converged
         end
         @testset "path and its permuted" begin
-            A=float.(Matrix(adjacency_matrix(path_graph(5))))
+            A=adjacency_matrix(path_graph(5))
             P=zeros(5,5)
             P[1,1]=1
             P[2,3]=1
@@ -92,7 +92,6 @@ end
             @test norm==sqrt(2)
             @test converged
         end
-
     end
 
 end;
