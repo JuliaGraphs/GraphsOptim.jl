@@ -13,7 +13,7 @@ _flat_doubly_stochastic(n::Int64)=ones(n) * ones(n)' / n
 
 Given the adjacency matrices A and B, return the gradient evaluated in P_i of the function f(P)=-tr(A*P*B'*P').
 """
-_gradient(A::AbstractMatrix{U},B::AbstractMatrix{U},P_i::AbstractMatrix{U}) where {U<:Real}  = - A*P_i*B' - A'*P_i*B
+_gradient(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real}  = - A*P_i*B' - A'*P_i*B
 
 #norm
 """
@@ -21,7 +21,7 @@ _gradient(A::AbstractMatrix{U},B::AbstractMatrix{U},P_i::AbstractMatrix{U}) wher
 
 Given the adjacency matrices A and B and the permutation matrix P, compute the distance between the permuted graphs.
 """
-_distance(A::AbstractMatrix{U},B::AbstractMatrix{U},P::AbstractMatrix{U}) where {U<:Real} = norm(A*P-P*B)
+_distance(A::AbstractMatrix{U},B::AbstractMatrix{V},P::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real} = norm(A*P-P*B)
 
 """
     _solve_transportation_problem(data; optimizer)
@@ -83,7 +83,7 @@ end
 
 Given A,B,P_i and the direction matrix Q_i, return the step size of the gradient descent method.
 """
-function _step_size(A::AbstractMatrix{U},B::AbstractMatrix{U},P_i::AbstractMatrix{U},Q_i::AbstractMatrix{U}) where {U<:Real}
+function _step_size(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T},Q_i::AbstractMatrix{W}) where {U<:Real,V<:Real,T<:Real,W<:Real}
     R=P_i-Q_i
     a= -tr(A*R*B'*R')
     b= -tr(A*Q_i*B'*R'+A*R*B'*Q_i')
@@ -104,7 +104,7 @@ end
 
 Given the previous matrix, the direction and the step size, return the updated matrix.
 """
-function _update_P(P_i::AbstractMatrix{U},Q_i::AbstractMatrix{U},α::Float64) where {U<:Real}
+function _update_P(P_i::AbstractMatrix{U},Q_i::AbstractMatrix{V},α::Float64) where {U<:Real,V<:Real}
     P_new=α*P_i + (1-α)*Q_i
     return P_new
 end
@@ -114,7 +114,7 @@ end
 
 Given the gradient and two consecutive step matrices, compute if the method converged.
 """
-function _check_convergence(gradient::AbstractMatrix{U},P_i::AbstractMatrix{U},P_new::AbstractMatrix{U};tol::Float64) where {U<:Real}
+function _check_convergence(gradient::AbstractMatrix{U},P_i::AbstractMatrix{V},P_new::AbstractMatrix{T};tol::Float64) where {U<:Real,V<:Real,T<:Real}
     if norm(gradient)*(norm(P_i-P_new))<tol
         return true
     else
@@ -132,12 +132,9 @@ Optional arguments:
     - `tol`: tolerance for the convergence, default value is 0.1.
 
 """
-function faq(A::AbstractMatrix{U},B::AbstractMatrix{U};optimizer,max_iter::Int64=30,tol::Float64=0.1) where {U<:Real}
+function faq(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64=30,tol::Float64=0.1,init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1])) where {U<:Real,V<:Real,T<:Real}
+    P_i=init
     converged=false
-    A=float.(A)
-    B=float.(B)
-    m=size(A)[1]
-    P_i=_flat_doubly_stochastic(m)
     for _ in 1:max_iter
         Q_i=_solve_transportation_problem(_gradient(A,B,P_i);optimizer=optimizer)
         α_i=_step_size(A,B,P_i,Q_i)
