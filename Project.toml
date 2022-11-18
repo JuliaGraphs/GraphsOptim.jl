@@ -12,8 +12,8 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 [compat]
 Aqua = "0.5"
 Documenter = "0.27"
-GLPK = "1"
 Graphs = "1.7"
+HiGHS = "1"
 JuMP = "1"
 JuliaFormatter = "1"
 SimpleTraits = "0.9"
@@ -22,12 +22,12 @@ julia = "1.6"
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua", "Documenter", "GLPK", "Graphs", "JuliaFormatter", "LinearAlgebra", "Test", "SparseArrays"]
+test = ["Aqua", "Documenter", "Graphs", "HiGHS", "JuliaFormatter", "LinearAlgebra", "Test", "SparseArrays"]

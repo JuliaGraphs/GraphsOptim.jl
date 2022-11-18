@@ -1,8 +1,8 @@
 using Aqua
 using Documenter
-using GLPK
 using Graphs
 using GraphsOptim
+using HiGHS
 using JuliaFormatter
 using LinearAlgebra
 using SparseArrays
@@ -21,11 +21,15 @@ using Test
         doctest(GraphsOptim)
     end
 
-    @testset verbose = true "Min cost flow" begin
+    @testset verbose = true "Minimum cost flow" begin
         include("minimum_cost_flow.jl")
     end
 
-    @testset verbose = true "Max weight matching" begin
+    @testset verbose = true "Maximum weight matching" begin
         include("maximum_weight_matching.jl")
+    end
+
+    @testset verbose = true "Maximum weight maximal matching" begin
+        include("maximum_weight_maximal_matching.jl")
     end
 end
