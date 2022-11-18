@@ -1,8 +1,8 @@
 function check_doubly_stochastic(D::AbstractMatrix{U}) where {U<:Real}
     n=size(D)[1]
     for i in 1:n
-        @test 0.99<sum(D[i,:])<1.01 #check sum of elements in a row == 1
-        @test 0.99<sum(D[:,i])<1.01 #check sum of elements in a column == 1
+        @test sum(D[i,:]) ≈ 1  #check sum of elements in a row == 1
+        @test sum(D[:,i]) ≈ 1 #check sum of elements in a column == 1
     end
 end
 
@@ -13,7 +13,7 @@ function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
             @test (A[i,j]==one(U) || A[i,j]==zero(U)) #check that entries are 1 or 0
         end
     end
-    check_doubly_stochastic(A) #check that rows and colums sum to 1
+    check_doubly_stochastic(A) #check that rows and columns sum to 1
 end
 
 @testset "GOAT algorithm" begin
@@ -44,14 +44,14 @@ end
 
     @testset "transportation problem" begin
         A=[1 4 5; 6 2 8; 9 9 3]
-        @test _solve_transportation_problem(A,optimizer=GLPK.Optimizer)==I3
-        check_doubly_stochastic(_solve_transportation_problem(rand(5,5);optimizer=GLPK.Optimizer))
+        @test _solve_transportation_problem(A,optimizer=HiGHS.Optimizer)==I3
+        check_doubly_stochastic(_solve_transportation_problem(rand(5,5);optimizer=HiGHS.Optimizer))
     end;
 
     @testset "assignment problem" begin
         A=[7 4 5; 6 9 8; 9 9 11]
-        @test _solve_assignment_problem(A,optimizer=GLPK.Optimizer)==I3
-        check_permutation_matrix(_solve_assignment_problem(rand(5,5),optimizer=GLPK.Optimizer))
+        @test _solve_assignment_problem(A,optimizer=HiGHS.Optimizer)==I3
+        check_permutation_matrix(_solve_assignment_problem(rand(5,5),optimizer=HiGHS.Optimizer))
     end;
 
     @testset "update P" begin
@@ -62,12 +62,12 @@ end
     end;
 
     @testset "GOAT" begin
-        P,_,_=goat(rand(5,5),rand(5,5),optimizer=GLPK.Optimizer)
+        P,_,_=goat(rand(5,5),rand(5,5),optimizer=HiGHS.Optimizer)
         check_doubly_stochastic(P)
         @testset "empty graphs" begin
             A=adjacency_matrix(SimpleGraph(5))
             B=adjacency_matrix(SimpleGraph(5))
-            _,norm,converged=goat(A,B,optimizer=GLPK.Optimizer)
+            _,norm,converged=goat(A,B,optimizer=HiGHS.Optimizer)
             @test norm==0.
             @test converged
         end
