@@ -178,16 +178,16 @@ end
 
 Copy the weights matrix `w` with all elements below `cutoff` set to 0.
 """
-function cutoff_weights(w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real}
+function cutoff_weights(w::AbstractMatrix{T}, cutoff::R) where {T<:Real,R<:Real}
     wnew = copy(w)
-    for j in 1:size(w,2)
-        for i in 1:size(w,1)
-            if wnew[i,j] < cutoff
-                wnew[i,j] = zero(T)
+    for j in 1:size(w, 2)
+        for i in 1:size(w, 1)
+            if wnew[i, j] < cutoff
+                wnew[i, j] = zero(T)
             end
         end
     end
-    wnew
+    return wnew
 end
 
 function maximum_weight_maximal_matching(

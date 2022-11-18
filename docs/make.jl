@@ -14,12 +14,7 @@ makedocs(;
         assets=String[],
         edit_branch="main",
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
 
-deploydocs(;
-    repo="github.com/gdalle/GraphsOptim.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/gdalle/GraphsOptim.jl", devbranch="main")
