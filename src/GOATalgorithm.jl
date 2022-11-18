@@ -50,7 +50,7 @@ function _solve_transportation_problem(data::AbstractMatrix{U}; optimizer) where
     return Q
 end
 
-#solve assignement problem
+#solve assignment problem
 """
     _solve_assignment_problem(data; optimizer)
 
@@ -110,7 +110,7 @@ function _update_P(P_i::AbstractMatrix{U},Q_i::AbstractMatrix{V},α::Float64) wh
 end
 
 """
-    _chech_convergence(gradient,P_i,P_new;tol)
+    _check_convergence(gradient,P_i,P_new;tol)
 
 Given the gradient and two consecutive step matrices, compute if the method converged.
 """
