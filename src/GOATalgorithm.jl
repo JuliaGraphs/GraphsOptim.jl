@@ -11,7 +11,7 @@ _flat_doubly_stochastic(n::Int64)=ones(n) * ones(n)' / n
 """
     _gradient(A,B,P_i)
 
-Given the adjacency matrices A and B, return the gradient evaluated in P_i of the function f(P)=-tr(A*P*B'*P').
+Given the adjacency matrices ``A`` and ``B``, return the gradient evaluated in ``P_i`` of the function ``f(P)=-\operatorname{trace}(APB^TP^T)``.
 """
 _gradient(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real}  = - A*P_i*B' - A'*P_i*B
 
@@ -19,7 +19,7 @@ _gradient(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T}) wher
 """
     _distance(A,B,P)
 
-Given the adjacency matrices A and B and the permutation matrix P, compute the distance between the permuted graphs.
+Given the adjacency matrices ``A`` and ``B`` and the permutation matrix ``P``, compute the distance between the permuted graphs.
 """
 _distance(A::AbstractMatrix{U},B::AbstractMatrix{V},P::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real} = norm(A*P-P*B)
 
@@ -81,7 +81,7 @@ end
 """
     _step_size(A,B,P_i,Q_i)
 
-Given A,B,P_i and the direction matrix Q_i, return the step size of the gradient descent method.
+Given ``A,B,P_i`` and the direction matrix ``Q_i``, return the step size of the gradient descent method.
 """
 function _step_size(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T},Q_i::AbstractMatrix{W}) where {U<:Real,V<:Real,T<:Real,W<:Real}
     R=P_i-Q_i
