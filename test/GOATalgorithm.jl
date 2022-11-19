@@ -1,8 +1,8 @@
 function check_doubly_stochastic(D::AbstractMatrix{U}) where {U<:Real}
     n=size(D)[1]
     for i in 1:n
-        @test sum(D[i,:]) ≈ 1  #check sum of elements in a row == 1
-        @test sum(D[:,i]) ≈ 1 #check sum of elements in a column == 1
+        @test sum(D[i,:]) ≈ 1  # check sum of elements in a row == 1
+        @test sum(D[:,i]) ≈ 1 # check sum of elements in a column == 1
     end
 end
 
@@ -10,10 +10,10 @@ function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
     n=size(A)[1]
     for j in 1:n
         for i in 1:n
-            @test (A[i,j]==one(U) || A[i,j]==zero(U)) #check that entries are 1 or 0
+            @test (A[i,j]==one(U) || A[i,j]==zero(U)) # check that entries are 1 or 0
         end
     end
-    check_doubly_stochastic(A) #check that rows and columns sum to 1
+    check_doubly_stochastic(A) # check that rows and columns sum to 1
 end
 
 @testset "GOAT algorithm" begin
@@ -21,7 +21,7 @@ end
     @testset "flat doubly stochastic"   begin
         n=5
         DS=_flat_doubly_stochastic(n)
-        @test size(DS)==(n,n) #check dimensions
+        @test size(DS)==(n,n) # check dimensions
         check_doubly_stochastic(DS)
     end;
 
@@ -30,7 +30,7 @@ end
         A=A+A'
         B=rand(5,5)
         B=B+B'
-        P=float.(Matrix(I(5))) #float because matrix of bool
+        P=float.(Matrix(I(5))) # float because matrix of bool
         @test _gradient(A,B,P)==-2*A*P*B
         @test _gradient(zeros(5,5),zeros(5,5),zeros(5,5))==zeros(5,5)
     end;

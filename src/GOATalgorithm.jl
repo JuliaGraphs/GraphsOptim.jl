@@ -1,13 +1,13 @@
-#flat doubly stochastic matrix, starting point
+# flat doubly stochastic matrix, starting point
 """
     _flat_doubly_stochastic(n)
 
-Given the dimension 'n', return the flat doubly stochastic matrix with number of rows and columns equals to 'n'.
+Given the dimension ``n``, return the flat doubly stochastic matrix ``J=\frac{1}{n}\mathbb{1}\mathbb{1}^T``.
 The flat doubly stochastic matrix is the barycenter of doubly stochastic matrices.
 """
 _flat_doubly_stochastic(n::Int64)=ones(n) * ones(n)' / n
 
-#gradient of the objective function
+# gradient of the objective function
 """
     _gradient(A,B,P_i)
 
@@ -15,7 +15,7 @@ Given the adjacency matrices A and B, return the gradient evaluated in P_i of th
 """
 _gradient(A::AbstractMatrix{U},B::AbstractMatrix{V},P_i::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real}  = - A*P_i*B' - A'*P_i*B
 
-#norm
+# norm
 """
     _distance(A,B,P)
 
@@ -50,7 +50,7 @@ function _solve_transportation_problem(data::AbstractMatrix{U}; optimizer) where
     return Q
 end
 
-#solve assignment problem
+# solve assignment problem
 """
     _solve_assignment_problem(data; optimizer)
 
