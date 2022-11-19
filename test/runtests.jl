@@ -24,12 +24,4 @@ using Test
     @testset verbose = true "Minimum cost flow" begin
         include("minimum_cost_flow.jl")
     end
-
-    @testset verbose = true "Maximum weight matching" begin
-        include("maximum_weight_matching.jl")
-    end
-
-    @testset verbose = true "Maximum weight maximal matching" begin
-        include("maximum_weight_maximal_matching.jl")
-    end
 end
