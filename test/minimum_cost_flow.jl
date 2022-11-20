@@ -7,16 +7,12 @@ using Test
 
 g = DiGraph(Graphs.grid((4, 6)))
 
-node_demand = rand(nv(g));
-node_demand .-= sum(node_demand) ./ nv(g);
+vertex_demand = rand(nv(g));
+vertex_demand .-= sum(vertex_demand) ./ nv(g);
 edge_cost = sparse(src.(edges(g)), dst.(edges(g)), rand(ne(g)));
 
-model = Model()
-set_optimizer(model, HiGHS.Optimizer)
-set_silent(model)
+flow_matrix = minimum_cost_flow(g, vertex_demand, edge_cost)
 
-minimum_cost_flow!(model, g, node_demand, edge_cost; flowvar_name=:myflow)
-
-optimize!(model)
-
-@test termination_status(model) == MOI.OPTIMAL
+inflow = vec(sum(flow_matrix; dims=1))
+outflow = vec(sum(flow_matrix; dims=2))
+@test inflow ≈ outflow + vertex_demand
