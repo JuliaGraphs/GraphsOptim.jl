@@ -19,7 +19,7 @@ using SparseArrays: sparse
 using LinearAlgebra: norm, tr
 
 export minimum_cost_flow!, minimum_cost_flow
-export faq, faq_transport
+export faq
 
 include("minimum_cost_flow.jl")
 include("alignment_algorithms.jl")
