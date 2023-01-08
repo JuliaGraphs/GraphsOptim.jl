@@ -16,6 +16,7 @@ using JuMP: set_silent, optimize!, termination_status, value
 using JuMP: @variable, @constraint, @objective
 using SimpleTraits: SimpleTraits, @traitfn
 using SparseArrays: sparse
+using LinearAlgebra: norm, tr
 
 export minimum_cost_flow!, minimum_cost_flow
 export faq, faq_transport
