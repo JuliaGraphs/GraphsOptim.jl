@@ -20,7 +20,7 @@ end
     I3 = [1 0 0; 0 1 0; 0 0 1]
     @testset "flat doubly stochastic" begin
         n = 5
-        DS = _flat_doubly_stochastic(n)
+        DS = GraphsOptim._flat_doubly_stochastic(n)
         @test size(DS) == (n, n) # check dimensions
         check_doubly_stochastic(DS)
     end
@@ -31,38 +31,38 @@ end
         B = rand(5, 5)
         B = B + B'
         P = float.(Matrix(I(5))) # float because matrix of bool
-        @test _gradient(A, B, P) == -2 * A * P * B
-        @test _gradient(zeros(5, 5), zeros(5, 5), zeros(5, 5)) == zeros(5, 5)
+        @test GraphsOptim._gradient(A, B, P) == -2 * A * P * B
+        @test GraphsOptim._gradient(zeros(5, 5), zeros(5, 5), zeros(5, 5)) == zeros(5, 5)
     end
 
     @testset "distance" begin
         A = [0 1 1; 1 0 1; 1 1 0]
         B = [0 1 0; 1 0 1; 0 1 0]
-        @test _distance(A, B, I3) == sqrt(2)
-        @test _distance(A, A, I3) == 0
+        @test GraphsOptim._distance(A, B, I3) == sqrt(2)
+        @test GraphsOptim._distance(A, A, I3) == 0
     end
 
     @testset "transportation problem" begin
         A = [1 4 5; 6 2 8; 9 9 3]
-        @test _solve_transportation_problem(A; optimizer=HiGHS.Optimizer) == I3
+        @test GraphsOptim._solve_transportation_problem(A; optimizer=HiGHS.Optimizer) == I3
         check_doubly_stochastic(
-            _solve_transportation_problem(rand(5, 5); optimizer=HiGHS.Optimizer)
+            GraphsOptim._solve_transportation_problem(rand(5, 5); optimizer=HiGHS.Optimizer)
         )
     end
 
     @testset "assignment problem" begin
         A = [7 4 5; 6 9 8; 9 9 11]
-        @test _solve_assignment_problem(A; optimizer=HiGHS.Optimizer) == I3
+        @test GraphsOptim._solve_assignment_problem(A; optimizer=HiGHS.Optimizer) == I3
         check_permutation_matrix(
-            _solve_assignment_problem(rand(5, 5); optimizer=HiGHS.Optimizer)
+            GraphsOptim._solve_assignment_problem(rand(5, 5); optimizer=HiGHS.Optimizer)
         )
     end
 
     @testset "update P" begin
         P = [0 1 1; 1 0 1; 1 1 0]
         Q = [0 1 0; 1 0 1; 0 1 0]
-        @test _update_P(P, Q, 1.0) == P
-        @test _update_P(P, Q, 0.0) == Q
+        @test GraphsOptim._update_P(P, Q, 1.0) == P
+        @test GraphsOptim._update_P(P, Q, 0.0) == Q
     end
 
     @testset "FAQ" begin
