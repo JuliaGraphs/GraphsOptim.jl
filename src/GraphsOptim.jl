@@ -18,7 +18,9 @@ using SimpleTraits: SimpleTraits, @traitfn
 using SparseArrays: sparse
 
 export minimum_cost_flow!, minimum_cost_flow
+export faq, faq_transport
 
 include("minimum_cost_flow.jl")
+include("alignment_algorithms.jl")
 
 end
