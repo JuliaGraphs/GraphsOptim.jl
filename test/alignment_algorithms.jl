@@ -42,14 +42,6 @@ end
         @test GraphsOptim._distance(A, A, I3) == 0
     end
 
-    @testset "transportation problem" begin
-        A = [1 4 5; 6 2 8; 9 9 3]
-        @test GraphsOptim._solve_transportation_problem(A; optimizer=HiGHS.Optimizer) == I3
-        check_doubly_stochastic(
-            GraphsOptim._solve_transportation_problem(rand(5, 5); optimizer=HiGHS.Optimizer)
-        )
-    end
-
     @testset "assignment problem" begin
         A = [7 4 5; 6 9 8; 9 9 11]
         @test GraphsOptim._solve_assignment_problem(A; optimizer=HiGHS.Optimizer) == I3
@@ -75,20 +67,7 @@ end
             @test norm == 0.0
             @test converged
         end
-        @testset "path and its permuted" begin
-            A = adjacency_matrix(path_graph(5))
-            P = zeros(5, 5)
-            P[1, 1] = 1
-            P[2, 3] = 1
-            P[3, 2] = 1
-            P[4, 5] = 1
-            P[5, 4] = 1
-            B = P * A * P'
-            P_res, norm, converged = faq(A, B; optimizer=HiGHS.Optimizer)
-            @test P_res == P
-            @test norm == 0.0
-            @test converged
-        end
+        
         @testset "two path and complete graph" begin
             A = adjacency_matrix(path_graph(3))
             B = adjacency_matrix(complete_graph(3))

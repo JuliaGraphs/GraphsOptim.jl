@@ -23,33 +23,6 @@ Given the adjacency matrices ``A`` and ``B`` and the permutation matrix ``P``, c
 """
 _distance(A::AbstractMatrix{U},B::AbstractMatrix{V},P::AbstractMatrix{T}) where {U<:Real,V<:Real,T<:Real} = norm(A*P-P*B)
 
-"""
-    _solve_transportation_problem(data; optimizer)
-
-Given a data matrix and a JuMP optimizer, return then doubly stochastic solution of the transportation problem.
-"""
-function _solve_transportation_problem(data::AbstractMatrix{U}; optimizer) where {U<:Real}
-    M,N=size(data)
-    model = Model(optimizer)
-    set_silent(model)
-    @variable(model, x[m in 1:M, n in 1:N] >= zero(U),integer=false)
-    @objective(
-        model,
-        Min,
-        sum(data[m, n] * x[m, n] for n in 1:N, m in 1:M),
-    )
-    @constraint(model, [m in 1:M], sum(x[m, :]) == one(U))
-    @constraint(model, [n in 1:N], sum(x[:, n]) == one(U))
-    optimize!(model)
-    Q=zeros(M,N)
-    for n in 1:N
-        for m in 1:M
-            Q[m,n]=value(x[m,n])
-        end
-    end
-    return Q
-end
-
 # solve assignment problem
 """
     _solve_assignment_problem(data; optimizer)
@@ -141,36 +114,6 @@ function faq(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64
     converged=false
     for _ in 1:max_iter
         Q_i=_solve_assignment_problem(_gradient(A,B,P_i);optimizer=optimizer)
-        α_i=_step_size(A,B,P_i,Q_i)
-        P_new=_update_P(P_i,Q_i,α_i)
-        converged=_check_convergence(_gradient(A,B,P_i),P_i,P_new;tol=tol)
-        converged && break
-        P_i=P_new
-    end
-    P=_solve_assignment_problem(P_i,optimizer=optimizer)
-    return P, _distance(A,B,P), converged
-end
-
-
-"""
-    faq_transport(A,B;optimizer,max_iter=30,tol=0.1,init+=_flat_doubly_stochastic(size(A)[1]))
-
-Given the adjacency matrix of two graphs, compute the alignment between them. The algorithm is similar to FAQ, except for the step that calculates the gradient, which in this case is computed as an optimal transport problem.
-Ref: [Algorithm 1-3](https://arxiv.org/pdf/2111.05366.pdf) 
-
-A JuMP-compatible solver must be provided with the `optimizer` argument.
-
-Optional arguments:
-    - `max_iter`: maximum of iteration of the gradient descent method, default value is 30.
-    - `tol`: tolerance for the convergence, default value is 0.1.
-    - `init`: initialization matrix of the gradient descent method, default value is a doubly stochastic matrix.
-
-"""
-function faq_transport(A::AbstractMatrix{U},B::AbstractMatrix{T};optimizer,max_iter::Int64=30,tol::Float64=0.1,init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1])) where {U<:Real,V<:Real,T<:Real}
-    P_i=init
-    converged=false
-    for _ in 1:max_iter
-        Q_i=_solve_transportation_problem(_gradient(A,B,P_i);optimizer=optimizer)
         α_i=_step_size(A,B,P_i,Q_i)
         P_new=_update_P(P_i,Q_i,α_i)
         converged=_check_convergence(_gradient(A,B,P_i),P_i,P_new;tol=tol)
