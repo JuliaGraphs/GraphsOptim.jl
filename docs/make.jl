@@ -12,14 +12,9 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://gdalle.github.io/GraphsOptim.jl",
         assets=String[],
-        edit_branch="main",
+        edit_link=:commit,
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
 
-deploydocs(;
-    repo="github.com/gdalle/GraphsOptim.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/gdalle/GraphsOptim.jl", devbranch="main")

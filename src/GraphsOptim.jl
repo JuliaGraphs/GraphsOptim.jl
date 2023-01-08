@@ -2,24 +2,23 @@
     GraphsOptim
 
 A package for graph-related optimization algorithms that rely on Linear Programming.
-
-The package JuMP.jl and one of its supported solvers are required.
 """
 module GraphsOptim
 
-using Graphs
-using JuMP
-using SimpleTraits
-using SparseArrays
-using LinearAlgebra
+using Graphs: AbstractGraph, IsDirected
+using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors
+using FillArrays: Zeros, Fill
+using HiGHS: Optimizer
+using JuMP: MOI
+using JuMP: Model
+using JuMP: objective_function, add_to_expression!
+using JuMP: set_silent, optimize!, termination_status, value
+using JuMP: @variable, @constraint, @objective
+using SimpleTraits: SimpleTraits, @traitfn
+using SparseArrays: sparse
 
-include("utils.jl")
+export minimum_cost_flow!, minimum_cost_flow
+
 include("minimum_cost_flow.jl")
-include("maximum_weight_matching.jl")
-include("GOATalgorithm.jl")
-
-export minimum_cost_flow
-export maximum_weight_matching, maximum_weight_maximal_matching
-export goat, _flat_doubly_stochastic, _gradient, _distance, _solve_transportation_problem,_solve_assignment_problem, _step_size, _update_P
 
 end
