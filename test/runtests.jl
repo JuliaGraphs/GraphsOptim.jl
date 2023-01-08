@@ -24,4 +24,8 @@ using Test
     @testset verbose = true "Minimum cost flow" begin
         include("minimum_cost_flow.jl")
     end
+
+    @testset verbose = true "Alignment" begin
+        include("alignment_algorithms.jl")
+    end
 end
