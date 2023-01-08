@@ -28,4 +28,4 @@ using Test
     @testset verbose = true "Alignment" begin
         include("alignment_algorithms.jl")
     end
-end
+end;
