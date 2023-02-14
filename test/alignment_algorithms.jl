@@ -67,7 +67,7 @@ end
             @test norm == 0.0
             @test converged
         end
-        
+
         @testset "two path and complete graph" begin
             A = adjacency_matrix(path_graph(3))
             B = adjacency_matrix(complete_graph(3))
