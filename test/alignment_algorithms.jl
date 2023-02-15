@@ -76,4 +76,18 @@ end
             @test converged
         end
     end
+
+    @testset "GOAT" begin
+        P, _, _ = goat(rand(5, 5), rand(5, 5); optimizer=HiGHS.Optimizer)
+        check_doubly_stochastic(P)
+
+        @testset "two path and complete graph" begin
+            A = adjacency_matrix(path_graph(3))
+            B = adjacency_matrix(complete_graph(3))
+            _, norm, converged = goat(A, B; optimizer=HiGHS.Optimizer)
+            @test norm == sqrt(2)
+            @test converged
+        end
+    end
+
 end;
