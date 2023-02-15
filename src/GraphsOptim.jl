@@ -17,9 +17,10 @@ using JuMP: @variable, @constraint, @objective
 using SimpleTraits: SimpleTraits, @traitfn
 using SparseArrays: sparse
 using LinearAlgebra: norm, tr
+using OptimalTransport 
 
 export minimum_cost_flow!, minimum_cost_flow
-export faq
+export faq, goat
 
 include("minimum_cost_flow.jl")
 include("alignment_algorithms.jl")
