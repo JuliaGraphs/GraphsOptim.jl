@@ -19,7 +19,9 @@ using Test
     end
 
     @testset verbose = true "Correctness (JET.jl)" begin
-        JET.test_package(GraphsOptim; target_defined_modules=true)
+        if VERSION >= v"1.9"
+            JET.test_package(GraphsOptim; target_defined_modules=true)
+        end
     end
 
     @testset verbose = true "Doctests (Documenter.jl)" begin
