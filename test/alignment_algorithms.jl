@@ -1,15 +1,13 @@
 function check_doubly_stochastic(D::AbstractMatrix{U}) where {U<:Real}
-    n = size(D)[1]
-    for i in 1:n
-        @test sum(D[i, :]) ≈ 1  # check sum of elements in a row == 1
-        @test sum(D[:, i]) ≈ 1 # check sum of elements in a column == 1
+    for i in eachindex(D,1)
+        @test sum(D[i, :]) ≈ one(U)  # check sum of elements in a row == 1
+        @test sum(D[:, i]) ≈ one(U) # check sum of elements in a column == 1
     end
 end
 
 function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
-    n = size(A)[1]
-    for j in 1:n
-        for i in 1:n
+    for j in eachindex(A,1)
+        for i in eachindex(A,1)
             @test (A[i, j] == one(U) || A[i, j] == zero(U)) # check that entries are 1 or 0
         end
     end
@@ -64,7 +62,7 @@ end
             A = adjacency_matrix(SimpleGraph(5))
             B = adjacency_matrix(SimpleGraph(5))
             _, norm, converged = faq(A, B; optimizer=HiGHS.Optimizer)
-            @test norm == 0.0
+            @test norm ≈ 0.0
             @test converged
         end
 
@@ -72,7 +70,7 @@ end
             A = adjacency_matrix(path_graph(3))
             B = adjacency_matrix(complete_graph(3))
             _, norm, converged = faq(A, B; optimizer=HiGHS.Optimizer)
-            @test norm == sqrt(2)
+            @test norm ≈ sqrt(2)
             @test converged
         end
     end

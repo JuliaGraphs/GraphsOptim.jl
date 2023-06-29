@@ -13,7 +13,7 @@ _flat_doubly_stochastic(n::Integer) = ones(n) * ones(n)' / n
 
 Given the adjacency matrices ``A`` and ``B``, return the gradient evaluated in ``P`` of the function ``f(P)=-\operatorname{trace}(APB^TP^T)``.
 """
-function _gradient(A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix) 
+function _gradient(A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix)
     return -A * P * B' - A' * P * B
 end
 
@@ -23,9 +23,7 @@ end
 
 Given the adjacency matrices ``A`` and ``B`` and the permutation matrix ``P``, compute the distance between the permuted graphs.
 """
-function _distance(
-    A::AbstractMatrix{U}, B::AbstractMatrix{V}, P::AbstractMatrix{T}
-) where {U<:Real,V<:Real,T<:Real}
+function _distance(A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix)
     return norm(A * P - P * B)
 end
 
@@ -44,31 +42,24 @@ function _solve_assignment_problem(data::AbstractMatrix{U}; optimizer) where {U<
     @constraint(model, [m in 1:M], sum(x[m, :]) == one(U))
     @constraint(model, [n in 1:N], sum(x[:, n]) == one(U))
     optimize!(model)
-    P = zeros(M, N)
-    for n in 1:N
-        for m in 1:M
-            P[m, n] = value(x[m, n])
-        end
-    end
+    P = zeros(Int, M, N)
+    P .= value.(x)
     return P
 end
 
 """
-    _step_size(A,B,P_i,Q_i)
+    _step_size(A,B,P,Q)
 
-Given ``A,B,P_i`` and the direction matrix ``Q_i``, return the step size of the gradient descent method.
+Given ``A,B,P`` and the direction matrix ``Q``, return the step size of the gradient descent method.
 """
 function _step_size(
-    A::AbstractMatrix{U},
-    B::AbstractMatrix{V},
-    P_i::AbstractMatrix{T},
-    Q_i::AbstractMatrix{W},
-) where {U<:Real,V<:Real,T<:Real,W<:Real}
-    R = P_i - Q_i
+    A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix, Q::AbstractMatrix
+)
+    R = P - Q
     a = -tr(A * R * B' * R')
-    b = -tr(A * Q_i * B' * R' + A * R * B' * Q_i')
+    b = -tr(A * Q * B' * R' + A * R * B' * Q')
     if a > 0.0
-        α = min(max(-0.5 * b / a, 0.0), 1.0)
+        α = min(max(b / (2 * a), 0.0), 1.0)
     else
         if a + b > 0.0
             α = 0.0
@@ -80,14 +71,12 @@ function _step_size(
 end
 
 """
-    _update_P(P_i,Q_i,α)
+    _update_P(P,Q,α)
 
 Given the previous matrix, the direction and the step size, return the updated matrix.
 """
-function _update_P(
-    P_i::AbstractMatrix{U}, Q_i::AbstractMatrix{V}, α::Float64
-) where {U<:Real,V<:Real}
-    P_new = α * P_i + (1 - α) * Q_i
+function _update_P(P::AbstractMatrix, Q::AbstractMatrix, α::Real)
+    P_new = α * P + (1 - α) * Q
     return P_new
 end
 
@@ -96,12 +85,7 @@ end
 
 Given the gradient and two consecutive step matrices, compute if the method converged.
 """
-function _check_convergence(
-    gradient::AbstractMatrix{U},
-    P_i::AbstractMatrix{V},
-    P_new::AbstractMatrix{T};
-    tol::Float64,
-) where {U<:Real,V<:Real,T<:Real}
+function _check_convergence(gradient::AbstractMatrix, P_i::AbstractMatrix, P_new::AbstractMatrix; tol::Real)
     if norm(gradient) * (norm(P_i - P_new)) < tol
         return true
     else
@@ -110,37 +94,51 @@ function _check_convergence(
 end
 
 """
-    faq(A,B;optimizer,max_iter=30,tol=0.1,init+=_flat_doubly_stochastic(size(A)[1]))
+    faq(A,B;optimizer,max_iter=30,tol=0.1,init=_flat_doubly_stochastic(size(A)[1]))
 
-Given the adjacency matrix of two graphs, compute the alignment between them.
-Ref: [Algorithm 1](https://arxiv.org/pdf/2111.05366.pdf) 
+Given the adjacency matrix of two graphs, compute the alignment between them. The outputs of the algorithm are:
+    - the permutation matrix ``P`` that aligns the two graphs,
+    - the distance between the permuted graphs,
+    - a boolean that indicates if the algorithm converged.
 
 A JuMP-compatible solver must be provided with the `optimizer` argument.
+
+Ref: [Algorithm 1](https://arxiv.org/pdf/2111.05366.pdf) 
 
 Optional arguments:
     - `max_iter`: maximum of iteration of the gradient descent method, default value is 30.
     - `tol`: tolerance for the convergence, default value is 0.1.
     - `init`: initialization matrix of the gradient descent method, default value is a doubly stochastic matrix.
 
+Example:
+```julia-repl
+julia> A = rand(10,10);
+
+julia> B = rand(10,10);
+
+julia> faq(a,b;optimizer=HiGHS.Optimizer)
+([0 0 … 0 0; 0 0 … 1 0; … ; 0 0 … 0 0; 0 0 … 0 0], 3.9591892429243543, true)
+```
+
 """
 function faq(
-    A::AbstractMatrix{U},
-    B::AbstractMatrix{T};
+    A::AbstractMatrix,
+    B::AbstractMatrix;
     optimizer,
-    max_iter::Int64=30,
-    tol::Float64=0.1,
-    init::AbstractMatrix{V}=_flat_doubly_stochastic(size(A)[1]),
-) where {U<:Real,V<:Real,T<:Real}
-    P_i = init
+    max_iter::Integer=30,
+    tol::Real=0.1,
+    init::AbstractMatrix=_flat_doubly_stochastic(size(A)[1]),
+)
+    P = init
     converged = false
     for _ in 1:max_iter
-        Q_i = _solve_assignment_problem(_gradient(A, B, P_i); optimizer=optimizer)
-        α_i = _step_size(A, B, P_i, Q_i)
-        P_new = _update_P(P_i, Q_i, α_i)
-        converged = _check_convergence(_gradient(A, B, P_i), P_i, P_new; tol=tol)
+        Q = _solve_assignment_problem(_gradient(A, B, P); optimizer=optimizer)
+        α_i = _step_size(A, B, P, Q)
+        P_new = _update_P(P, Q, α_i)
+        converged = _check_convergence(_gradient(A, B, P), P, P_new; tol=tol)
         converged && break
-        P_i = P_new
+        P = P_new
     end
-    P = _solve_assignment_problem(P_i; optimizer=optimizer)
+    P = _solve_assignment_problem(P; optimizer=optimizer)
     return P, _distance(A, B, P), converged
 end
