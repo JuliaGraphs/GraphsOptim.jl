@@ -1,11 +1,11 @@
 # flat doubly stochastic matrix, starting point
-"""
+@doc raw"""
     _flat_doubly_stochastic(n)
 
-Given the dimension ``n``, return the flat doubly stochastic matrix ``J=\\frac{1}{n}\\mathbb{1}\\mathbb{1}^T``.
+Given the dimension ``n``, return the flat doubly stochastic matrix ``J=\frac{1}{n}\mathbb{1}\mathbb{1}^T``.
 The flat doubly stochastic matrix is the barycenter of doubly stochastic matrices.
 """
-_flat_doubly_stochastic(n::Int64) = ones(n) * ones(n)' / n
+_flat_doubly_stochastic(n::Integer) = ones(n) * ones(n)' / n
 
 # gradient of the objective function
 """
