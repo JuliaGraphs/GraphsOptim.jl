@@ -8,15 +8,13 @@ The flat doubly stochastic matrix is the barycenter of doubly stochastic matrice
 _flat_doubly_stochastic(n::Integer) = ones(n) * ones(n)' / n
 
 # gradient of the objective function
-"""
-    _gradient(A,B,P_i)
+@doc raw"""
+    _gradient(A,B,P)
 
-Given the adjacency matrices ``A`` and ``B``, return the gradient evaluated in ``P_i`` of the function ``f(P)=-\\operatorname{trace}(APB^TP^T)``.
+Given the adjacency matrices ``A`` and ``B``, return the gradient evaluated in ``P`` of the function ``f(P)=-\operatorname{trace}(APB^TP^T)``.
 """
-function _gradient(
-    A::AbstractMatrix{U}, B::AbstractMatrix{V}, P_i::AbstractMatrix{T}
-) where {U<:Real,V<:Real,T<:Real}
-    return -A * P_i * B' - A' * P_i * B
+function _gradient(A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix) 
+    return -A * P * B' - A' * P * B
 end
 
 # norm
