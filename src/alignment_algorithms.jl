@@ -38,7 +38,7 @@ function _solve_assignment_problem(data::AbstractMatrix{U}; optimizer) where {U<
     model = Model(optimizer)
     set_silent(model)
     @variable(model, x[m in 1:M, n in 1:N] >= zero(U), integer = true)
-    @objective(model, Max, sum(data[m, n] * x[m, n] for n in 1:N, m in 1:M),)
+    @objective(model, Max, dot(data,x),)
     @constraint(model, [m in 1:M], sum(x[m, :]) == one(U))
     @constraint(model, [n in 1:N], sum(x[:, n]) == one(U))
     optimize!(model)

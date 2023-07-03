@@ -1,16 +1,20 @@
 function check_doubly_stochastic(D::AbstractMatrix{U}) where {U<:Real}
-    for i in eachindex(D,1)
+    for i in eachindex(size(D,1))
         @test sum(D[i, :]) ≈ one(U)  # check sum of elements in a row == 1
         @test sum(D[:, i]) ≈ one(U) # check sum of elements in a column == 1
     end
 end
 
-function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
-    for j in eachindex(A,1)
-        for i in eachindex(A,1)
-            @test (A[i, j] == one(U) || A[i, j] == zero(U)) # check that entries are 1 or 0
-        end
+function isbinary(element)
+    if element == zero(typeof(element)) || element == one(typeof(element))
+        return true
+    else
+        return false
     end
+end
+
+function check_permutation_matrix(A::AbstractMatrix{U}) where {U<:Real}
+    @test all(isbinary, A) # check that entries are 1 or 0
     return check_doubly_stochastic(A) # check that rows and columns sum to 1
 end
 
@@ -28,16 +32,16 @@ end
         A = A + A'
         B = rand(5, 5)
         B = B + B'
-        P = float.(Matrix(I(5))) # float because matrix of bool
-        @test GraphsOptim._gradient(A, B, P) == -2 * A * P * B
+        I5 = [1 0 0 0 0; 0 1 0 0 0; 0 0 1 0 0; 0 0 0 1 0; 0 0 0 0 1]
+        @test GraphsOptim._gradient(A, B, I5) == -2 * A * I5 * B
         @test GraphsOptim._gradient(zeros(5, 5), zeros(5, 5), zeros(5, 5)) == zeros(5, 5)
     end
 
     @testset "distance" begin
         A = [0 1 1; 1 0 1; 1 1 0]
         B = [0 1 0; 1 0 1; 0 1 0]
-        @test GraphsOptim._distance(A, B, I3) == sqrt(2)
-        @test GraphsOptim._distance(A, A, I3) == 0
+        @test GraphsOptim._distance(A, B, I3) ≈ sqrt(2)
+        @test GraphsOptim._distance(A, A, I3) ≈ 0
     end
 
     @testset "assignment problem" begin
