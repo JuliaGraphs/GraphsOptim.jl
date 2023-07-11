@@ -38,7 +38,7 @@ where the incoming flow $f^-(v)$ and outgoing flow $f^+(v)$ are defined as
 f^-(v) = \sum_{u \in N^-(v)} f(u, v) \quad \text{and} \quad f^+(v) = \sum_{w \in N^+(v)} f(v, w)
 ```
 
-## Alignment
+## Assignment
 
 !!! danger "Work in progress"
     Come back later!
