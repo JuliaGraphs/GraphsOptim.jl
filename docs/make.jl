@@ -14,7 +14,7 @@ makedocs(;
         assets=String[],
         edit_link=:commit,
     ),
-    pages=["Home" => "index.md"],
+    pages=["Home" => "index.md", "Algorithms" => "algorithms.md"],
 )
 
 deploydocs(; repo="github.com/gdalle/GraphsOptim.jl", devbranch="main")

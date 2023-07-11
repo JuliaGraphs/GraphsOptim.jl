@@ -10,25 +10,33 @@ using SparseArrays
 using Test
 
 @testset verbose = true "GraphsOptim.jl" begin
-    @testset verbose = true "Quality (Aqua.jl)" begin
-        Aqua.test_all(GraphsOptim; ambiguities=false)
-    end
-
-    @testset verbose = true "Formatting (JuliaFormatter.jl)" begin
+    @testset verbose = true "Code formatting" begin
         @test format(GraphsOptim; verbose=false, overwrite=false)
     end
 
-    @testset verbose = true "Correctness (JET.jl)" begin
-        if VERSION >= v"1.9"
+    if VERSION >= v"1.9"
+        @testset verbose = true "Code quality" begin
+            Aqua.test_all(GraphsOptim; ambiguities=false)
+        end
+
+        @testset verbose = true "Code linting" begin
             JET.test_package(GraphsOptim; target_defined_modules=true)
         end
     end
 
-    @testset verbose = true "Doctests (Documenter.jl)" begin
+    @testset verbose = true "Doctests" begin
         doctest(GraphsOptim)
     end
 
-    @testset verbose = true "Minimum cost flow" begin
-        include("minimum_cost_flow.jl")
+    @testset verbose = true "Flow" begin
+        include("flow.jl")
     end
-end
+
+    @testset verbose = true "Assignment" begin
+        include("assignment.jl")
+    end
+
+    @testset verbose = true "Graph matching" begin
+        include("graph_matching.jl")
+    end
+end;
