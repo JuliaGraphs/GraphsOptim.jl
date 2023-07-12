@@ -19,7 +19,7 @@ using SparseArrays: sparse
 
 export min_cost_flow
 export min_cost_assignment
-export faq
+export faq, goat
 
 include("utils.jl")
 include("flow.jl")
