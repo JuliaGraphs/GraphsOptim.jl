@@ -125,7 +125,7 @@ function goat(
     # Iterative procedure
     for _ in 1:max_iter
         ∇f = -A * P * B' - A' * P * B
-        Q = sinkhorn(ones(m), ones(m), - ∇f, -1/(regulizer/ maximum(abs.(∇f))); max_iter = max_iter_sinkhorn)
+        Q = sinkhorn(ones(m), ones(m), - ∇f, -1/(regulizer/ maximum(abs.(∇f))); maxiter = max_iter_sinkhorn)
         α = _step_size(A,B,P,Q)
         P_new = α * P + (1 - α) * Q
         # Check convergence
