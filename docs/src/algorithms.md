@@ -11,7 +11,7 @@ We denote by:
 
 - ``f`` the edge flow variable
 - ``c`` the edge cost
-- ``a`` and``b`` the min and max edge capacity
+- ``a`` and ``b`` the min and max edge capacity
 - ``d`` the vertex demand
 
 The objective function is
@@ -50,11 +50,9 @@ GraphsOptim.min_cost_assignment!
 
 ## Graph matching
 
-!!! danger "Work in progress"
-    Come back later!
-
 ```@docs
 faq
+goat
 ```
 
 ## Utils
