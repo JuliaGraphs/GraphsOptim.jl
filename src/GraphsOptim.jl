@@ -16,6 +16,7 @@ using JuMP: @variable, @constraint, @objective
 using LinearAlgebra: norm, tr, dot
 using MathOptInterface: OPTIMAL
 using SparseArrays: sparse
+using OptimalTransport: sinkhorn
 
 export min_cost_flow
 export min_cost_assignment
