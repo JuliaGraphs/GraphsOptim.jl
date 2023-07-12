@@ -21,7 +21,6 @@ using Test
         @test dist ≈ sqrt(2)
         @test converged
     end
-
 end
 
 @testset "GOAT" begin
@@ -34,5 +33,4 @@ end
         @test dist ≈ sqrt(2)
         @test converged
     end
-
 end

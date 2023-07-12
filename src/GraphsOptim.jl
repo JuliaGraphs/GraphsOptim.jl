@@ -20,7 +20,8 @@ using OptimalTransport: sinkhorn
 
 export min_cost_flow
 export min_cost_assignment
-export faq, goat
+export faq
+export goat
 
 include("utils.jl")
 include("flow.jl")
