@@ -43,7 +43,7 @@ function faq(
         # Compute the search direction Q
         Q = min_cost_assignment(∇f; integer=false, optimizer=optimizer)
         # Compute the step size α
-        α = _faq_step_size(A, B, P, Q)
+        α = _step_size(A, B, P, Q)
         # Update P
         P_new = α * P + (1 - α) * Q
         # Check convergence
@@ -59,11 +59,11 @@ function faq(
 end
 
 """
-    _faq_step_size(A, B, P, Q)
+    _step_size(A, B, P, Q)
 
-Given the adjacency matrices `A` and `B`, the doubly stochastic matrix `P` and the direction matrix `Q`, return the step size of the FAQ gradient descent method.
+Given the adjacency matrices `A` and `B`, the doubly stochastic matrix `P` and the direction matrix `Q`, return the step size of the gradient descent method.
 """
-function _faq_step_size(
+function _step_size(
     A::AbstractMatrix, B::AbstractMatrix, P::AbstractMatrix, Q::AbstractMatrix
 )
     R = P - Q
@@ -78,3 +78,37 @@ function _faq_step_size(
     end
     return α
 end
+
+function goat(
+    A::AbstractMatrix,
+    B::AbstractMatrix;
+    max_iter::Integer=30,
+    tol::Real=0.1,
+    P_init::AbstractMatrix=flat_doubly_stochastic(size(A, 1)),
+    regulizer::Real=100.0,
+    max_iter_sinkhorn::Integer=500,
+    optimizer=HiGHS.Optimizer,
+)
+    m = size(A, 1)
+    converged = false
+    # Find a suitable initial position
+    P = P_init
+    # Iterative procedure
+    for _ in 1:max_iter
+        ∇f = -A * P * B' - A' * P * B
+        Q = sinkhorn(ones(m), ones(m), - ∇f, -1/(regulizer/ maximum(abs.(∇f))); max_iter = max_iter_sinkhorn)
+        α = _step_size(A,B,P,Q)
+        P_new = α * P + (1 - α) * Q
+        # Check convergence
+        converged = norm(∇f) * (norm(P - P_new)) < tol
+        P = P_new
+        converged && break
+    end
+    # Project onto the set of permutation matrices
+    P = min_cost_assignment(-P; integer=true, optimizer=optimizer)
+    # Compute the error
+    dist = norm(A * P - P * B)
+    return P, dist, converged
+end
+
+   
