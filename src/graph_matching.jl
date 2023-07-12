@@ -22,7 +22,7 @@ Ref: Algorithm 1 of <https://arxiv.org/pdf/2111.05366.pdf>
 
 - `max_iter`: maximum iterations of the gradient descent method (default value is 30).
 - `tol`: tolerance for the convergence (default value is 0.1).
-- `init`: initialization matrix of the gradient descent method (default value is a flat doubly stochastic matrix).
+- `P_init`: initialization matrix of the gradient descent method (default value is a flat doubly stochastic matrix).
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
 function faq(
@@ -79,6 +79,35 @@ function _step_size(
     return α
 end
 
+"""
+    goat(
+        A , B;
+        max_iter, tol, P_init, regulizer, max_iter_sinkhorn, optimizer)
+
+Compute an approximately optimal alignment between two graphs.
+
+The output is a tuple that contains:
+- the permutation matrix `P` defining the alignment;
+- the distance between the permuted graphs;
+- a boolean indicating if the algorithm converged.
+
+Ref: Algorithm 3 of <https://arxiv.org/pdf/2111.05366.pdf>
+
+
+# Arguments
+
+- `A`: the adjacency matrix of the first graph
+- `B`: the adjacency matrix of the second graph
+
+# Keyword arguments
+
+- `max_iter`: maximum iterations of the gradient descent method (default value is 30).
+- `tol`: tolerance for the convergence (default value is 0.1).
+- `P_init`: initialization matrix of the gradient descent method (default value is a flat doubly stochastic matrix).
+- `regulizer`: regulizer of the Sinkhorn algorithm (default value is 100.0).
+- `max_iter_sinkhorn`: maximum iterations of the Sinkhorn algorithm (default value is 500).
+- `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
+"""
 function goat(
     A::AbstractMatrix,
     B::AbstractMatrix;
