@@ -50,9 +50,11 @@ GraphsOptim.min_cost_assignment!
 
 ## Graph matching
 
+!!! danger "Work in progress"
+    Come back later!
+
 ```@docs
-faq
-goat
+graph_matching
 ```
 
 ## Utils

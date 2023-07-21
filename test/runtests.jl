@@ -10,21 +10,21 @@ using SparseArrays
 using Test
 
 @testset verbose = true "GraphsOptim.jl" begin
-    @testset verbose = true "Code formatting" begin
+    @testset "Code formatting" begin
         @test format(GraphsOptim; verbose=false, overwrite=false)
     end
 
     if VERSION >= v"1.9"
-        @testset verbose = true "Code quality" begin
+        @testset "Code quality" begin
             Aqua.test_all(GraphsOptim; ambiguities=false)
         end
 
-        @testset verbose = true "Code linting" begin
+        @testset "Code linting" begin
             JET.test_package(GraphsOptim; target_defined_modules=true)
         end
     end
 
-    @testset verbose = true "Doctests" begin
+    @testset "Doctests" begin
         doctest(GraphsOptim)
     end
 
