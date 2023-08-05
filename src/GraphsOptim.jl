@@ -7,6 +7,7 @@ module GraphsOptim
 
 using Graphs: AbstractGraph, is_directed
 using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors
+using Graphs: Coloring, maximal_cliques
 using FillArrays: Zeros, Fill
 using HiGHS: HiGHS
 using JuMP: Model
@@ -17,14 +18,17 @@ using LinearAlgebra: norm, tr, dot
 using MathOptInterface: OPTIMAL
 using SparseArrays: sparse
 using OptimalTransport: sinkhorn
+using PicoSAT: solve
 
 export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
+export optimal_coloring
 
 include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
 include("graph_matching.jl")
+include("coloring.jl")
 
 end

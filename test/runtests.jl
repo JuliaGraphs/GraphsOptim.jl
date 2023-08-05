@@ -39,4 +39,8 @@ using Test
     @testset verbose = true "Graph matching" begin
         include("graph_matching.jl")
     end
+
+    @testset verbose = true "Coloring" begin
+        include("coloring.jl")
+    end
 end;
