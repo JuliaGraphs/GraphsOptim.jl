@@ -20,4 +20,4 @@ using Pkg; Pkg.add(url="https://github.com/JuliaGraphs/GraphsOptim.jl")
 ## Roadmap
 
 This package only contains a few algorithms, and we would like to add more.
-New contributors are always welcome: just pick a problem from [our roadmap issue](https://github.com/JuliaGraphs/GraphsOptim.jl/issues/14), open a pull request following the [guidelines](https://github.com/JuliaGraphs/GraphsOptim.jl/CONTRIBUTING.md), and we will help you get it merged!
+New contributors are always welcome: just pick a problem from [our roadmap issue](https://github.com/JuliaGraphs/GraphsOptim.jl/issues/14), open a pull request following the [guidelines](https://github.com/JuliaGraphs/GraphsOptim.jl/blob/main/CONTRIBUTING.md), and we will help you get it merged!
