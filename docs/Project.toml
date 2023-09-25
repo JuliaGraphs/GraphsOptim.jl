@@ -1,3 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GraphsOptim = "e79ef3ae-79c8-4b97-b165-63f338db30c2"
+
+[compat]
+Documenter = "1.0"
