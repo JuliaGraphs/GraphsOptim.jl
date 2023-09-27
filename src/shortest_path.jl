@@ -99,7 +99,7 @@ function shortest_path(
 
     for step in 1:length(valid_edges)
         prev = path[step]
-        edge_index = findfirst(edge[begin] == prev for edge in valid_edges)
+        edge_index = findfirst(collect(edge[begin] == prev for edge in valid_edges))
         path[step + 1] = valid_edges[edge_index][end]
     end
 
