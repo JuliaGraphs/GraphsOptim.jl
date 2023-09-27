@@ -1,5 +1,5 @@
 """
-    GraphsOptim
+	GraphsOptim
 
 A package for graph optimization algorithms that rely on mathematical programming.
 """
@@ -26,5 +26,6 @@ include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
 include("graph_matching.jl")
+include("shortest_path.jl")
 
 end
