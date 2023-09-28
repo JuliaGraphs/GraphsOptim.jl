@@ -21,6 +21,7 @@ using OptimalTransport: sinkhorn
 export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
+export shortest_path
 
 include("utils.jl")
 include("flow.jl")
