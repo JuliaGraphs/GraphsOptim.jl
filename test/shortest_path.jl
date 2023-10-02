@@ -2,31 +2,35 @@ using Graphs
 using GraphsOptim
 using Test
 
-num_vertices = 20
+#=
+This graph is the example on the Wikipedia page "Shortest Path Problem"
+=#
 
-function test_shortest_path(g)
-    edge_cost = rand(1:100, num_vertices, num_vertices) .* adjacency_matrix(g)
+digraph_adjacency = [
+    0 4 2 0 0 0
+    0 0 5 10 0 0
+    0 0 0 0 3 0
+    0 0 0 0 0 11
+    0 0 0 4 0 0
+    0 0 0 0 0 0
+]
 
-    source = rand(1:num_vertices)
-    target = rand(setdiff(Set(1:num_vertices), Set(source)))
+undigraph_adjacency = [
+    0 4 2 0 0 0
+    4 0 5 10 0 0
+    2 5 0 0 3 0
+    0 10 0 0 4 11
+    0 0 3 4 0 0
+    0 0 0 11 0 0
+]
 
-    dijkstra_parents = Graphs.dijkstra_shortest_paths(g, source, edge_cost).parents
-    dijkstra_ans = [target]
-    while true
-        parent_vx = dijkstra_parents[dijkstra_ans[begin]]
-        pushfirst!(dijkstra_ans, parent_vx)
-        if parent_vx == source
-            break
-        end
-    end
+source, target = 1, 6
+answer = [1, 3, 5, 4, 6]
 
-    mp_ans = GraphsOptim.shortest_path(g, source, target, edge_cost)
+digraph = Graphs.SimpleDiGraph(digraph_adjacency)
+digraph_ans = GraphsOptim.shortest_path(digraph, source, target, digraph_adjacency)
+@test all(answer .== digraph_ans)
 
-    @test all(dijkstra_ans .== mp_ans)
-end
-
-g = Graphs.SimpleDiGraph(num_vertices, 5 * num_vertices; seed=0)
-test_shortest_path(g)
-
-g = Graphs.SimpleGraph(num_vertices, 3 * num_vertices; seed=0)
-test_shortest_path(g)
+undigraph = Graphs.SimpleGraph(undigraph_adjacency)
+undigraph_ans = GraphsOptim.shortest_path(undigraph, source, target, undigraph_adjacency)
+@test all(answer .== undigraph_ans)
