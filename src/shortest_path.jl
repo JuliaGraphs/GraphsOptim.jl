@@ -15,38 +15,38 @@ function shortest_path!(
     target::Int,
     edge_cost::AbstractMatrix;
     var_name,
+    integer::Bool=true,
 )
-    dg = g
+    edge_tuples = [(src(ed), dst(ed)) for ed in edges(g)]
     if !is_directed(g)
-        dg = DiGraph(g)
+        edge_tuples = [edge_tuples; [(dst(ed), src(ed)) for ed in edges(g)]]
     end
-    edge_tuples = [(src(ed), dst(ed)) for ed in edges(dg)]
 
     # 1 if an edge if traversed and 0 otherwise
-    traversed = @variable(model, 0 <= x[e=edge_tuples] <= 1; integer=true)
+    traversed = @variable(model, 0 <= x[e=edge_tuples] <= 1; integer=integer)
     model[Symbol(var_name)] = traversed
 
     # Exit from source
     @constraint(
         model,
-        sum(traversed[(source, next_v)] for next_v in outneighbors(dg, source)) -
-        sum(traversed[(prev_v, source)] for prev_v in inneighbors(dg, source)) == 1
+        sum(traversed[(source, next_v)] for next_v in outneighbors(g, source)) -
+        sum(traversed[(prev_v, source)] for prev_v in inneighbors(g, source)) == 1
     )
     # Arrive at destination
     @constraint(
         model,
-        sum(traversed[(target, next_v)] for next_v in outneighbors(dg, target)) +
-        sum(traversed[(prev_v, target)] for prev_v in inneighbors(dg, target)) == 1
+        sum(traversed[(target, next_v)] for next_v in outneighbors(g, target)) +
+        sum(traversed[(prev_v, target)] for prev_v in inneighbors(g, target)) == 1
     )
     # Go out from a vertex is only possible by going in first
-    for u in vertices(dg)
+    for u in vertices(g)
         if u in (source, target)
             continue
         end
         @constraint(
             model,
-            sum(traversed[(u, next_v)] for next_v in outneighbors(dg, u)) -
-            sum(traversed[(prev_v, u)] for prev_v in inneighbors(dg, u)) == 0
+            sum(traversed[(u, next_v)] for next_v in outneighbors(g, u)) -
+            sum(traversed[(prev_v, u)] for prev_v in inneighbors(g, u)) == 0
         )
     end
 
@@ -99,8 +99,7 @@ function shortest_path(
 
     for step in 1:length(valid_edges)
         prev = path[step]
-        edge_index = findfirst(collect(edge[begin] == prev for edge in valid_edges))
-        path[step + 1] = valid_edges[edge_index][end]
+        path[step + 1] = first(edge[end] for edge in valid_edges if edge[begin] == prev)
     end
 
     return path

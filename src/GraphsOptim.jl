@@ -5,7 +5,7 @@ A package for graph optimization algorithms that rely on mathematical programmin
 """
 module GraphsOptim
 
-using Graphs: AbstractGraph, is_directed, DiGraph
+using Graphs: AbstractGraph, is_directed
 using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors
 using FillArrays: Zeros, Fill
 using HiGHS: HiGHS
