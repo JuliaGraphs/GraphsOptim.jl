@@ -67,24 +67,24 @@ The variable $x(u,v)$ is an edge selection variable. $x(u,v) = 1$ means that edg
 The linear program is constrained by
 
 1. 0 to 1 selection for all edges:
-```math
-0 \leq x(u, v) \leq 1
-```
+   ```math
+   0 \leq x(u, v) \leq 1
+   ```
 
 2. Path goes out from source $s$
-```math
-\sum_{(s, v) \in E} x(s, v) - \sum_{(v, s) \in E} x(v, s) = 1
-```
+   ```math
+   \sum_{(s, v) \in E} x(s, v) - \sum_{(v, s) \in E} x(v, s) = 1
+   ```
 
 3. Path ends at target $t$
-```math
-\sum_{(t, v) \in E} x(t, v) + \sum_{(v, t) \in E} x(v, t) = 1
-```
-
+   ```math
+   \sum_{(t, v) \in E} x(t, v) + \sum_{(v, t) \in E} x(v, t) = 1
+   ```
+   
 4. All middle vertices must have equal incoming and outgoing paths, i.e. $\forall v \notin \lbrace s, t\rbrace$
-```math
-\sum_{(u, v) \in E} x(u, v) - \sum_{v, w} x(v, w) = 0
-```
+   ```math
+   \sum_{(u, v) \in E} x(u, v) - \sum_{v, w} x(v, w) = 0
+   ```
 
 ## Assignment
 

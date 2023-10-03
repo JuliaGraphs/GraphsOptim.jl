@@ -1,7 +1,7 @@
 """
 	shortest_path!(
 		model,
-		g, source, target, edge_cost, var_name
+		g, source, target, edge_cost; var_name, integer
 	)
 
 Modify a JuMP model by adding the variable, constraints and objective necessary to compute the shortest path between 2 vertices over a graph
@@ -59,7 +59,7 @@ end
 
 """
 	shortest_path(
-		g, source, target, edge_cost, optimizer
+		g, source, target, edge_cost; integer, optimizer
 	)
 
 Compute the shortest path from a source to a target vertex over a graph.
@@ -74,6 +74,7 @@ Returns a sequence of vertices from source to destination.
 
 # Keyword arguments
 
+- `integer::Bool`: whether the path should be integer-valued or real-valued (default is `true`)
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
 function shortest_path(
@@ -81,19 +82,20 @@ function shortest_path(
     source::Int,
     target::Int,
     edge_cost::AbstractMatrix;
+    integer::Bool=true,
     optimizer=HiGHS.Optimizer,
 )
     model = Model(optimizer)
     set_silent(model)
 
-    shortest_path!(model, g, source, target, edge_cost; var_name=:path)
+    shortest_path!(model, g, source, target, edge_cost; var_name=:path, integer=integer)
     optimize!(model)
     @assert termination_status(model) == OPTIMAL
 
     edge_selection = value.(model[:path])
     valid_edges = [p for p in first(axes(edge_selection)) if edge_selection[p] > 0]
 
-    # Parse valid path indices to actual path (sequence of traversed vertices)
+    # Parse valid path indices to actual path (sequence of visited vertices)
     path = ones(typeof(source), length(valid_edges) + 1)
     path[begin] = source
 
