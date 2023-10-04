@@ -1,0 +1,38 @@
+using Graphs
+using GraphsOptim
+using IterTools
+using Test
+
+function queens_graph(n::Integer, m::Integer)
+    g = SimpleGraph(n * m)
+    for (ix, iy, jx, jy) in product(1:n, 1:m, 1:n, 1:m)
+        dx = ix - jx
+        dy = iy - jy
+        if dx != 0 || dy != 0
+            if dx == 0 || dy == 0 || dx == dy || dx == -dy
+                add_edge!(g, (ix - 1) * m + iy, (jx - 1) * m + jy)
+            end
+        end
+    end
+    return g
+end
+
+queens_graph(n::Integer) = queens_graph(n, n)
+
+function kneser_graph(n::Integer, k::Integer)
+    ss = collect(subsets(1:n, k))
+    return SimpleGraph([isdisjoint(a, b) for a in ss, b in ss])
+end
+
+# https://oeis.org/A088202
+@test optimal_coloring(queens_graph(1)).num_colors == 1
+@test optimal_coloring(queens_graph(2)).num_colors == 4
+@test optimal_coloring(queens_graph(3)).num_colors == 5
+@test optimal_coloring(queens_graph(4)).num_colors == 5
+@test optimal_coloring(queens_graph(5)).num_colors == 5
+@test optimal_coloring(queens_graph(6)).num_colors == 7
+@test optimal_coloring(queens_graph(7)).num_colors == 7
+# Runs in 52 seconds on i7-12800HX.
+#@test optimal_coloring(queens_graph(8)).num_colors == 9
+
+@test optimal_coloring(kneser_graph(11, 4)).num_colors == 11 - 2 * 4 + 2
