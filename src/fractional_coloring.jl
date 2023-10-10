@@ -13,10 +13,10 @@ Beware: this can run very slowly for graphs of any substantial size.
 
 # Keyword arguments
 
-- `optimizer`: JuMP-compatible solver (default is `GLPK.Optimizer`)
+- `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
 function fractional_chromatic_number(
-    g::AbstractGraph{T}, optimizer=GLPK.Optimizer
+    g::AbstractGraph{T}, optimizer=HiGHS.Optimizer
 ) where {T<:Integer}
     ss = maximal_cliques(complement(g))
     M = hcat(indvec.(ss, nv(g))...)
@@ -39,10 +39,10 @@ Beware: this can run very slowly for graphs of any substantial size.
 
 # Keyword arguments
 
-- `optimizer`: JuMP-compatible solver (default is `GLPK.Optimizer`)
+- `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
 function fractional_clique_number(
-    g::AbstractGraph{T}, optimizer=GLPK.Optimizer
+    g::AbstractGraph{T}, optimizer=HiGHS.Optimizer
 ) where {T<:Integer}
     model = Model(optimizer)
     set_silent(model)
