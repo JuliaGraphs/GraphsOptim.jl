@@ -62,6 +62,13 @@ graph_matching
 GraphsOptim.graph_matching_step_size
 ```
 
+## Coloring
+
+```@docs
+fractional_chromatic_number
+fractional_clique_number
+```
+
 ## Utils
 
 ```@docs
@@ -71,4 +78,5 @@ GraphsOptim.is_stochastic
 GraphsOptim.is_doubly_stochastic
 GraphsOptim.is_permutation_matrix
 GraphsOptim.flat_doubly_stochastic
+GraphsOptim.indvec
 ```

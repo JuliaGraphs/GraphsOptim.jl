@@ -1,9 +1,3 @@
-function indvec(s, n)
-    x = zeros(n)
-    x[s] .= 1
-    return x
-end
-
 """
     fractional_chromatic_number(g; optimizer)
 
@@ -14,10 +8,18 @@ Beware: this can run very slowly for graphs of any substantial size.
 # Keyword arguments
 
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
+
+# References
+
+- https://mathworld.wolfram.com/FractionalChromaticNumber.html
 """
 function fractional_chromatic_number(
     g::AbstractGraph{T}, optimizer=HiGHS.Optimizer
 ) where {T<:Integer}
+    if is_directed(g)
+        throw(ArgumentError("The graph must not be directed"))
+    end
+
     ss = maximal_cliques(complement(g))
     M = hcat(indvec.(ss, nv(g))...)
 
@@ -40,10 +42,18 @@ Beware: this can run very slowly for graphs of any substantial size.
 # Keyword arguments
 
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
+
+# References
+
+- https://mathworld.wolfram.com/FractionalCliqueNumber.html
 """
 function fractional_clique_number(
     g::AbstractGraph{T}, optimizer=HiGHS.Optimizer
 ) where {T<:Integer}
+    if is_directed(g)
+        throw(ArgumentError("The graph must not be directed"))
+    end
+
     model = Model(optimizer)
     set_silent(model)
     @variable(model, x[1:nv(g)] >= 0)
