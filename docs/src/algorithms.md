@@ -1,5 +1,9 @@
 # Algorithms
 
+```@docs
+GraphsOptim
+```
+
 ## Flow
 
 ```@docs
@@ -55,6 +59,7 @@ GraphsOptim.min_cost_assignment!
 
 ```@docs
 graph_matching
+GraphsOptim.graph_matching_step_size
 ```
 
 ## Utils
