@@ -39,4 +39,8 @@ using Test
     @testset verbose = true "Graph matching" begin
         include("graph_matching.jl")
     end
+
+    @testset verbose = true "Vertex cover" begin
+        include("vertex_cover.jl")
+    end    
 end;
