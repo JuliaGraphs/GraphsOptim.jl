@@ -42,6 +42,15 @@ where the incoming flow $f^-(v)$ and outgoing flow $f^+(v)$ are defined as
 f^-(v) = \sum_{u \in N^-(v)} f(u, v) \quad \text{and} \quad f^+(v) = \sum_{w \in N^+(v)} f(v, w)
 ```
 
+## Shortest Path
+
+```@docs
+shortest_path
+GraphsOptim.shortest_path!
+```
+
+A special case of minimum cost flow without edge capacities, and where vertex demands are $0$ everywhere except at the source ($-1$) and target ($+1$).
+
 ## Assignment
 
 !!! danger "Work in progress"

@@ -19,24 +19,34 @@ function min_cost_flow!(
     var_name,
     integer::Bool,
 )
-    if !is_directed(g)
-        throw(ArgumentError("The graph must be directed"))
+    if is_directed(g)
+        edge_tuples = [(src(ed), dst(ed)) for ed in edges(g)]
+    else
+        edge_tuples = vcat(
+            [(src(ed), dst(ed)) for ed in edges(g)], [(dst(ed), src(ed)) for ed in edges(g)]
+        )
     end
-    edge_tuples = [(src(ed), dst(ed)) for ed in edges(g)]
 
     f = @variable(model, [edge_tuples]; integer=integer, base_name=String(var_name))
     model[Symbol(var_name)] = f
 
     for (u, v) in edge_tuples
-        @constraint(model, f[(u, v)] >= edge_min_capacity[u, v])
+        if isfinite(edge_min_capacity[u, v])
+            @constraint(model, f[(u, v)] >= edge_min_capacity[u, v])
+        end
         if isfinite(edge_max_capacity[u, v])
             @constraint(model, f[(u, v)] <= edge_max_capacity[u, v])
         end
     end
 
     for v in vertices(g)
-        inflow = sum(f[(u, v)] for u in inneighbors(g, v))
-        outflow = sum(f[(v, w)] for w in outneighbors(g, v))
+        inflow, outflow = AffExpr(0), AffExpr(0)
+        for u in inneighbors(g, v)
+            inflow += f[(u, v)]
+        end
+        for w in outneighbors(g, v)
+            outflow += f[(v, w)]
+        end
         @constraint(model, inflow == vertex_demand[v] + outflow)
     end
 
