@@ -16,4 +16,4 @@ expected_ans_options = Set([Set([1,2]), Set([2,3])])
 
 graph = SimpleGraph(adj_matrix)
 
-@test Set(vertex_cover) in expected_ans_options
+@test Set(min_vertex_cover(graph)) in expected_ans_options

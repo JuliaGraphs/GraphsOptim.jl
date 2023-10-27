@@ -8,7 +8,7 @@ Modify a JuMP model by adding the variable, constraints and objective necessary 
 
 The vertex cover indicator variable will be named `var_name`
 """
-function vertex_cover!(
+function min_vertex_cover!(
     model::Model,
     g::AbstractGraph;
     var_name,
@@ -57,14 +57,14 @@ Compute a minimum vertex cover of an undirected graph.
 
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
-function vertex_cover(
+function min_vertex_cover(
     g::AbstractGraph;
     optimizer=HiGHS.Optimizer,
 )
     model = Model(optimizer)
     set_silent(model)
 
-    vertex_cover!(
+    min_vertex_cover!(
         model,
         g;
         var_name=:cover,
