@@ -2,7 +2,7 @@
     fractional_chromatic_number(g; optimizer)
 
 Compute the fractional chromatic number of a graph.  Gives the same result as
-fractional_clique_number, though one function may run faster than the other.
+`fractional_clique_number`, though one function may run faster than the other.
 Beware: this can run very slowly for graphs of any substantial size.
 
 # Keyword arguments
@@ -36,7 +36,7 @@ end
     fractional_clique_number(g; optimizer)
 
 Compute the fractional clique number of a graph.  Gives the same result as
-fractional_chromatic_number, though one function may run faster than the other.
+`fractional_chromatic_number`, though one function may run faster than the other.
 Beware: this can run very slowly for graphs of any substantial size.
 
 # Keyword arguments
