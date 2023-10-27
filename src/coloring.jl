@@ -1,59 +1,41 @@
 """
-    optimal_coloring(g)
+    minimum_coloring(
+        g, max_nb_colors;
+        optimizer
+    )
 
-Finds a proper coloring using the minimum possible number of colors.  Returns a
-Graphs.Coloring object.  Beware: this is an NP-complete problem and so runtime
-can in the worst case increase exponentially in the size of the graph.
+Finds a graph coloring using the smallest possible number of colors, assuming that it will not exceed `max_nb_colors`.
+
+Returns a vector of color indices.
+
+Beware: this is an NP-complete problem and so runtime can in the worst case increase exponentially in the size of the graph.
 """
-function optimal_coloring(g::AbstractGraph{T})::Coloring{T} where {T<:Integer}
-    # It is not clear whether maximum clique or maximal clique is faster.
-    # Maximum clique should generally make coloring faster but of course can
-    # itself be time consuming to compute.
-    max_clique = argmax(length, maximal_cliques(g))
-    #max_clique = independent_set(complement(g), DegreeIndependentSet())
-    #@show max_clique
+function minimum_coloring(
+    g::AbstractGraph, max_nb_colors::Integer; optimizer=HiGHS.Optimizer
+)
+    model = Model(optimizer)
 
-    for χ in length(max_clique):nv(g)
-        #println("Trying χ=$χ")
-        indexer = reshape(1:(nv(g) * χ), (nv(g), χ))
-        cnf = Vector{Int64}[]
+    @variable(model, x[1:nv(g), 1:max_nb_colors], Bin)
+    @variable(model, y[1:max_nb_colors], Bin)
 
-        # Seeding the solution on a maximal clique makes it solve faster.
-        for (i, v) in enumerate(max_clique)
-            push!(cnf, [indexer[v, i]])
-        end
+    @objective(model, Min, sum(y))
 
-        for i in 1:nv(g)
-            push!(cnf, indexer[i, :])
-        end
+    for v in 1:nv(g)
+        @constraint(model, sum(x[v, :]) == 1)
+    end
+    for v in 1:nv(g), c in 1:max_nb_colors
+        @constraint(model, x[v, c] <= y[c])
+    end
+    for c in 1:max_nb_colors
         for e in edges(g)
-            if src(e) != dst(e)
-                for j in 1:χ
-                    push!(cnf, [-indexer[src(e), j], -indexer[dst(e), j]])
-                end
-            end
-        end
-        sol = solve(cnf)
-        if typeof(sol) == Symbol
-            if sol == :unsatisfiable
-                # continue
-            else
-                throw(ErrorException("PicoSAT.solve returned unrecognized result status"))
-            end
-        else
-            colormatrix = zeros(Bool, (nv(g), χ))
-            # typeassert is needed to get JET.test_package to pass
-            colormatrix[filter(i -> i > 0, sol::AbstractArray)] .= true
-            colors = map(argmax, eachrow(colormatrix))
-            @assert all(colors .>= 1)
-            @assert all(colors .<= χ)
-            for e in edges(g)
-                if src(e) != dst(e)
-                    @assert colors[src(e)] != colors[dst(e)]
-                end
-            end
-            return Coloring{T}(χ, colors)
+            u, v = src(e), dst(e)
+            @constraint(model, x[u, c] + x[v, c] <= 1)
         end
     end
-    @assert false
+
+    set_silent(model)
+    optimize!(model)
+    # return a vector of color indices
+    c = [argmax(value.(x[v, :])) for v in 1:nv(g)]
+    return c
 end

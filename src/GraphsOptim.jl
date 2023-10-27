@@ -18,12 +18,11 @@ using LinearAlgebra: norm, tr, dot
 using MathOptInterface: OPTIMAL
 using SparseArrays: sparse
 using OptimalTransport: sinkhorn
-using PicoSAT: solve
 
 export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
-export optimal_coloring
+export minimum_coloring
 
 include("utils.jl")
 include("flow.jl")

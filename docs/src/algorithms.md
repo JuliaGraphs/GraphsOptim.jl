@@ -57,6 +57,15 @@ GraphsOptim.min_cost_assignment!
 graph_matching
 ```
 
+## Coloring
+
+!!! danger "Work in progress"
+    Come back later!
+
+```@docs
+minimum_coloring
+```
+
 ## Utils
 
 ```@docs

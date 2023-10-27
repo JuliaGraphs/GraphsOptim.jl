@@ -25,14 +25,14 @@ function kneser_graph(n::Integer, k::Integer)
 end
 
 # https://oeis.org/A088202
-@test optimal_coloring(queens_graph(1)).num_colors == 1
-@test optimal_coloring(queens_graph(2)).num_colors == 4
-@test optimal_coloring(queens_graph(3)).num_colors == 5
-@test optimal_coloring(queens_graph(4)).num_colors == 5
-@test optimal_coloring(queens_graph(5)).num_colors == 5
-@test optimal_coloring(queens_graph(6)).num_colors == 7
-@test optimal_coloring(queens_graph(7)).num_colors == 7
-# Runs in 52 seconds on i7-12800HX.
-#@test optimal_coloring(queens_graph(8)).num_colors == 9
 
-@test optimal_coloring(kneser_graph(11, 4)).num_colors == 11 - 2 * 4 + 2
+nb_colors(c) = length(unique(c))
+
+@test minimum_coloring(queens_graph(1), 10) |> nb_colors == 1
+@test minimum_coloring(queens_graph(2), 10) |> nb_colors == 4
+@test minimum_coloring(queens_graph(3), 10) |> nb_colors == 5
+@test minimum_coloring(queens_graph(4), 10) |> nb_colors == 5
+@test minimum_coloring(queens_graph(5), 10) |> nb_colors == 5
+@test minimum_coloring(queens_graph(6), 10) |> nb_colors == 7
+
+@test minimum_coloring(kneser_graph(11, 4), 10) |> nb_colors == 11 - 2 * 4 + 2

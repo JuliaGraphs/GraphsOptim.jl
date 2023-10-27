@@ -11,7 +11,6 @@ JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MathOptInterface = "b8f27783-ece8-5eb3-8dc8-9495eed66fee"
 OptimalTransport = "7e02d93a-ae51-4f58-b602-d97af76e3b33"
-PicoSAT = "ff2beb65-d7cd-5ff1-a187-74671133a339"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
@@ -24,7 +23,6 @@ JuMP = "1"
 JuliaFormatter = "1"
 MathOptInterface = "1.18"
 OptimalTransport = "0.3"
-PicoSAT = "0.4"
 julia = "1.6"
 
 [extras]
@@ -41,4 +39,4 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua", "Documenter", "Graphs", "HiGHS", "JET", "JuMP", "JuliaFormatter", "LinearAlgebra", "Test", "SparseArrays", "IterTools"]
+test = ["Aqua", "Documenter", "Graphs", "HiGHS", "JET", "IterTools", "JuMP", "JuliaFormatter", "LinearAlgebra", "SparseArrays", "Test"]
