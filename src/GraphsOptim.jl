@@ -7,9 +7,9 @@ module GraphsOptim
 
 using Graphs: AbstractGraph, is_directed
 using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors
-using FillArrays: Zeros, Fill
+using FillArrays: Zeros, Ones, Fill
 using HiGHS: HiGHS
-using JuMP: Model
+using JuMP: Model, AffExpr
 using JuMP: objective_function, add_to_expression!
 using JuMP: set_silent, optimize!, termination_status, value
 using JuMP: @variable, @constraint, @objective
