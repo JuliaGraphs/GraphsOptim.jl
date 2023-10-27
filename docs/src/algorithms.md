@@ -42,6 +42,14 @@ where the incoming flow $f^-(v)$ and outgoing flow $f^+(v)$ are defined as
 f^-(v) = \sum_{u \in N^-(v)} f(u, v) \quad \text{and} \quad f^+(v) = \sum_{w \in N^+(v)} f(v, w)
 ```
 
+## Minimum Vertex Cover
+
+```@docs
+min_vertex_cover
+```
+Minumum vertex cover algorithm finds a subset $S \subset V$ of vertices of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in E: u \in S \lor v \in S$
+
+
 ## Assignment
 
 !!! danger "Work in progress"
