@@ -43,7 +43,7 @@ using Test
     @testset verbose = true "Fractional coloring" begin
         include("fractional_coloring.jl")
     end
-    
+
     @testset verbose = true "Shortest path" begin
         include("shortest_path.jl")
     end
