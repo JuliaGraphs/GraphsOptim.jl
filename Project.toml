@@ -30,6 +30,7 @@ Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
+IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
@@ -38,4 +39,4 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua", "Documenter", "Graphs", "HiGHS", "JET", "JuMP", "JuliaFormatter", "LinearAlgebra", "Test", "SparseArrays"]
+test = ["Aqua", "Documenter", "Graphs", "HiGHS", "IterTools", "JET", "JuMP", "JuliaFormatter", "LinearAlgebra", "Test", "SparseArrays"]

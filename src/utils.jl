@@ -48,3 +48,14 @@ end
 Return the barycenter of doubly stochastic matrices `J = 𝟏 * 𝟏ᵀ / n`.
 """
 flat_doubly_stochastic(n::Integer) = ones(n) * ones(n)' / n
+
+"""
+    indvec(s, n)
+
+Return a vector of length `n` with ones at indices specified by `s`.
+"""
+function indvec(s::AbstractVector, n::Integer)
+    x = zeros(n)
+    x[s] .= 1
+    return x
+end

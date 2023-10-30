@@ -42,13 +42,14 @@ where the incoming flow $f^-(v)$ and outgoing flow $f^+(v)$ are defined as
 f^-(v) = \sum_{u \in N^-(v)} f(u, v) \quad \text{and} \quad f^+(v) = \sum_{w \in N^+(v)} f(v, w)
 ```
 
-## Minimum Vertex Cover
+## Shortest Path
 
 ```@docs
-min_vertex_cover
+shortest_path
+GraphsOptim.shortest_path!
 ```
-Minumum vertex cover algorithm finds a subset $S \subset V$ of vertices of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in E: u \in S \lor v \in S$
 
+A special case of minimum cost flow without edge capacities, and where vertex demands are $0$ everywhere except at the source ($-1$) and target ($+1$).
 
 ## Assignment
 
@@ -60,6 +61,14 @@ min_cost_assignment
 GraphsOptim.min_cost_assignment!
 ```
 
+## Minimum Vertex Cover
+
+```@docs
+min_vertex_cover
+```
+
+Finds a subset $S \subset V$ of vertices of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in E: u \in S \lor v \in S$
+
 ## Graph matching
 
 !!! danger "Work in progress"
@@ -68,6 +77,13 @@ GraphsOptim.min_cost_assignment!
 ```@docs
 graph_matching
 GraphsOptim.graph_matching_step_size
+```
+
+## Coloring
+
+```@docs
+fractional_chromatic_number
+fractional_clique_number
 ```
 
 ## Utils
@@ -79,4 +95,5 @@ GraphsOptim.is_stochastic
 GraphsOptim.is_doubly_stochastic
 GraphsOptim.is_permutation_matrix
 GraphsOptim.flat_doubly_stochastic
+GraphsOptim.indvec
 ```
