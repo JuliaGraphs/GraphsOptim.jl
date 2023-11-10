@@ -1,5 +1,5 @@
 """
-    vertex_cover!(
+    min_vertex_cover!(
         model, g;
         var_name
     )
@@ -8,15 +8,14 @@ Modify a JuMP model by adding the variable, constraints and objective necessary 
 
 The vertex cover indicator variable will be named `var_name`
 """
-function min_vertex_cover!(model::Model, g::AbstractGraph; var_name)
+function min_vertex_cover!(model::Model, g::AbstractGraph; integer::Bool, var_name)
     if is_directed(g)
         throw(ArgumentError("The graph must not be directed"))
     end
 
     ver = collect(vertices(g))
-    edge_tuples = [(src(ed), dst(ed)) for ed in edges(g)]
 
-    f = @variable(model, [ver]; integer=true, base_name=String(var_name))
+    f = @variable(model, [ver]; integer=integer, base_name=String(var_name))
     model[Symbol(var_name)] = f
 
     for v in ver
@@ -24,8 +23,8 @@ function min_vertex_cover!(model::Model, g::AbstractGraph; var_name)
         @constraint(model, f[v] <= 1)
     end
 
-    for (u, v) in edge_tuples
-        @constraint(model, f[u] + f[v] >= 1)
+    for e in edges(g)
+        @constraint(model, f[src(e)] + f[dst(e)] >= 1)
     end
 
     obj = objective_function(model)
@@ -38,7 +37,7 @@ function min_vertex_cover!(model::Model, g::AbstractGraph; var_name)
 end
 
 """
-    vertex_cover(
+    min_vertex_cover(
         g, optimizer
     )
 
@@ -52,11 +51,11 @@ Compute a minimum vertex cover of an undirected graph.
 
 - `optimizer`: JuMP-compatible solver (default is `HiGHS.Optimizer`)
 """
-function min_vertex_cover(g::AbstractGraph; optimizer=HiGHS.Optimizer)
+function min_vertex_cover(g::AbstractGraph; integer::Bool=true, optimizer=HiGHS.Optimizer)
     model = Model(optimizer)
     set_silent(model)
 
-    min_vertex_cover!(model, g; var_name=:cover)
+    min_vertex_cover!(model, g; integer=integer, var_name=:cover)
 
     optimize!(model)
     @assert termination_status(model) == OPTIMAL

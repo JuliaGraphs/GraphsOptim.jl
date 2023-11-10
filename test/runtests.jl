@@ -41,7 +41,7 @@ using Test
     end
 
     @testset verbose = true "Vertex cover" begin
-        include("vertex_cover.jl")
+        include("min_vertex_cover.jl")
     end
 
     @testset verbose = true "Fractional coloring" begin

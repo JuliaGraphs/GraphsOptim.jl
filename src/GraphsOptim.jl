@@ -31,7 +31,7 @@ include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
 include("graph_matching.jl")
-include("vertex_cover.jl")
+include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")
 
