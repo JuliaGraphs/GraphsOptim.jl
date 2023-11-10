@@ -65,6 +65,7 @@ GraphsOptim.min_cost_assignment!
 
 ```@docs
 min_vertex_cover
+GraphsOptim.min_vertex_cover!
 ```
 
 Finds a subset $S \subset V$ of vertices of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in E: u \in S \lor v \in S$
