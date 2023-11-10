@@ -23,6 +23,7 @@ using OptimalTransport: sinkhorn
 export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
+export min_vertex_cover
 export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 
@@ -30,6 +31,7 @@ include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
 include("graph_matching.jl")
+include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")
 

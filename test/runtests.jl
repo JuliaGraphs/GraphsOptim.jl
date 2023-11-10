@@ -40,6 +40,10 @@ using Test
         include("graph_matching.jl")
     end
 
+    @testset verbose = true "Vertex cover" begin
+        include("min_vertex_cover.jl")
+    end
+
     @testset verbose = true "Fractional coloring" begin
         include("fractional_coloring.jl")
     end
