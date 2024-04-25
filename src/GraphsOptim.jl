@@ -34,5 +34,6 @@ include("graph_matching.jl")
 include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")
+include("independent_set.jl")
 
 end
