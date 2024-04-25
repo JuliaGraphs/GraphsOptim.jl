@@ -24,7 +24,7 @@ export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
 export min_vertex_cover
-export maximum_independent_set
+export maximum_weight_independent_set
 export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 
