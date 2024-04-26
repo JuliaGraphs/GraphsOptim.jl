@@ -19,7 +19,8 @@ function maximum_weight_independent_set!(
         covering_constraint[i=1:nv(g), j=1:nv(g); i ≠ j && has_edge(g, i, j)],
         f[i] + f[j] <= 1,
     )
-    @objective(model, Max, dot(f, vertex_weights))
+    obj = objective_function(model)
+    add_to_expression!(obj, dot(f, vertex_weights))
     return model
 end
 
