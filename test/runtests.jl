@@ -44,6 +44,10 @@ using Test
         include("min_vertex_cover.jl")
     end
 
+    @testset verbose = true "Independent set" begin
+        include("independent_set.jl")
+    end
+
     @testset verbose = true "Fractional coloring" begin
         include("fractional_coloring.jl")
     end

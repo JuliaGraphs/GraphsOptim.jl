@@ -6,7 +6,7 @@ A package for graph optimization algorithms that rely on mathematical programmin
 module GraphsOptim
 
 using Graphs: AbstractGraph, is_directed
-using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors
+using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors, has_edge
 using Graphs: complement, maximal_cliques
 using FillArrays: Zeros, Ones, Fill
 using HiGHS: HiGHS
@@ -24,6 +24,7 @@ export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
 export min_vertex_cover
+export maximum_weight_independent_set
 export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 
@@ -34,5 +35,6 @@ include("graph_matching.jl")
 include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")
+include("independent_set.jl")
 
 end
