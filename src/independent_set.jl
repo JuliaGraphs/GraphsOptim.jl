@@ -21,6 +21,7 @@ function maximum_weight_independent_set!(
     )
     obj = objective_function(model)
     add_to_expression!(obj, dot(f, vertex_weights))
+    @objective(model, Max, obj)
     return model
 end
 
