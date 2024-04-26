@@ -44,6 +44,10 @@ using Test
         include("min_vertex_cover.jl")
     end
 
+    @testset verbose = true "Cliques" begin
+        include("maximum_clique.jl")
+    end
+
     @testset verbose = true "Independent set" begin
         include("independent_set.jl")
     end
