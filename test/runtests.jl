@@ -48,6 +48,10 @@ using Test
         include("maximum_clique.jl")
     end
 
+    @testset verbose = true "Independent set" begin
+        include("independent_set.jl")
+    end
+
     @testset verbose = true "Fractional coloring" begin
         include("fractional_coloring.jl")
     end

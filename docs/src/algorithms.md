@@ -79,6 +79,15 @@ GraphsOptim.maximum_weight_clique!
 
 A *clique* is a subset $S \subset V$ of vertices of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in S: (u, v) \in E$. We search for the clique maximizing the total weight of selected vertices.
 
+## Maximum Weight Independent Set
+
+```@docs
+maximum_weight_independent_set
+GraphsOptim.maximum_weight_independent_set!
+```
+
+Finds a subset $S \subset V$ of vertices of maximal weight of an undirected graph $G = (V,E)$ such that $\forall (u,v) \in E: u \notin S \lor v \notin S$.
+
 ## Graph matching
 
 !!! danger "Work in progress"

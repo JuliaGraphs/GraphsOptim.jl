@@ -24,6 +24,7 @@ export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
 export min_vertex_cover
+export maximum_weight_independent_set
 export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 export maximum_weight_clique
@@ -36,5 +37,6 @@ include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")
 include("maximum_clique.jl")
+include("independent_set.jl")
 
 end
