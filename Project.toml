@@ -16,7 +16,7 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 [compat]
 Aqua = "0.6"
 Documenter = "0.27"
-FillArrays = "0.13"
+FillArrays = "0.13, 1.15"
 Graphs = "1.7"
 HiGHS = "1"
 JuMP = "1"
