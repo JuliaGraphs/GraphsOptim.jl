@@ -57,4 +57,8 @@ using Test
     @testset verbose = true "Shortest path" begin
         include("shortest_path.jl")
     end
+
+    @testset verbose = true "Path graph matching" begin
+        include("pathGraphMatching.jl")
+    end
 end;
