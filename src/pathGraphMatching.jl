@@ -38,7 +38,7 @@ function pathAlgorithm(
     verbose_FW::Bool=false,
 )
     # extend the smaller matrix by zero rows and columns
-    diffSize = size(G, 1)-size(H, 1)
+    diffSize = size(G, 1) - size(H, 1)
 
     if diffSize > 0
         # G is larger
@@ -148,11 +148,13 @@ function pathAlgorithm(
         # update dλ until criterion is met
         # TODO implemented new stopping criterion. Need to still find out ϵ_f and ϵ_p values from FrankWolfe implementation and calculate ϵ_λ_f and ϵ_λ_p with added input M.
         # d_λ is doubled until one value is larger than it's threshold (or new λ is already 1)
-        while abs(fλNormalizedFinal(p_new, λ_new, G, H)-fλNormalizedFinal(p_opt, λ, G, H)) <
-              ϵ_λ_f &&
-              p_change_normalized < ϵ_λ_p &&
-              λ_new < one(Float64)
-            dλ = 2*dλ
+        while abs(
+                      fλNormalizedFinal(p_new, λ_new, G, H) -
+                      fλNormalizedFinal(p_opt, λ, G, H),
+                  ) < ϵ_λ_f &&
+                  p_change_normalized < ϵ_λ_p &&
+                  λ_new < one(Float64)
+            dλ = 2 * dλ
             λ_new = min(λ + dλ, one(Float64))
 
             verbose && println("   dλ = ", dλ)
@@ -177,7 +179,7 @@ function pathAlgorithm(
         end
 
         # if the last while loop's condition is not met (anymore), dλ is one step too large and can be halved once directly
-        dλ = max(dλ/2, dλ_min)
+        dλ = max(dλ / 2, dλ_min)
         λ_new = λ + dλ
         verbose && println("   dλ = ", dλ)
         if !isnothing(p_last)
@@ -204,10 +206,10 @@ function pathAlgorithm(
 
         # d_λ is halved until both values are smaller than their thresholds (or dλ is already at minimum)
         while (
-            abs(fλNormalizedFinal(p_new, λ_new, G, H)-fλNormalizedFinal(p_opt, λ, G, H)) >
+            abs(fλNormalizedFinal(p_new, λ_new, G, H) - fλNormalizedFinal(p_opt, λ, G, H)) >
             ϵ_λ_f || p_change_normalized > ϵ_λ_p
         ) && dλ > dλ_min
-            dλ = max(dλ/2, dλ_min)
+            dλ = max(dλ / 2, dλ_min)
             λ_new = min(λ + dλ, one(Float64))
             verbose && println("   dλ = ", dλ)
 
@@ -356,7 +358,7 @@ end
 # convex function F0
 # algorithm uses only normalized version. This is just for plotting and displaying the correct data.
 function f0(P, G, H)
-    return sqd_frob(G*P .- P*H)
+    return sqd_frob(G * P .- P * H)
 end
 
 # F0 normalized for values between 0 and 1.
@@ -375,8 +377,9 @@ end
 # concave function F1.
 # algorithm uses only normalized version. This is just for plotting and displaying the correct data.
 function f1(P, G, H)
-    constantTerm = tr(laplacian(G)^2)+tr(laplacian(H)^2)
-    return .- tr(Δ(G, H)'*P) .- 2.0 .* (vec(P)' * vec(laplacian(G) * P * laplacian(H))) + constantTerm
+    constantTerm = tr(laplacian(G)^2) + tr(laplacian(H)^2)
+    return .-tr(Δ(G, H)' * P) .- 2.0 .* (vec(P)' * vec(laplacian(G) * P * laplacian(H))) +
+           constantTerm
 end
 
 # F1 normalized for values between 0 and 1.
@@ -389,19 +392,19 @@ end
 # save solution value in variable "storage" for space economy
 function ∇f1Normalized!(storage, P, G, H)
     # the PATH-Algorithm paper has 2.0 in front of the second term, but 4.0 should be correct.
-    value = .- Δ(G, H)' .- 4.0 .* laplacian(G) * P * laplacian(H)
+    value = .-Δ(G, H)' .- 4.0 .* laplacian(G) * P * laplacian(H)
     return storage .= value ./ (sqd_frob(G) + sqd_frob(H))
 end
 
 # Fλ is convex combination of F0 and F1.
 # algorithm uses only normalized version. This is just for plotting and displaying the correct data.
 function fλ(P, λ, G, H)
-    return (1-λ) * f0(P, G, H) + λ * f1(P, G, H)
+    return (1 - λ) * f0(P, G, H) + λ * f1(P, G, H)
 end
 
 # Fλ normalized for values between 0 and 1.
 function fλNormalized(P, λ, G, H)
-    return (1-λ) * f0Normalized(P, G, H) + λ * f1Normalized(P, G, H)
+    return (1 - λ) * f0Normalized(P, G, H) + λ * f1Normalized(P, G, H)
 end
 
 struct FλForP
@@ -416,7 +419,7 @@ end
 
 # function flipped for maximization of the initial function and thus solving QAP
 function fλ_QAP(P, λ, G, H)
-    return (1-λ) * (-f1Normalized(P, G, H)) + λ * (-f0Normalized(P, G, H))
+    return (1 - λ) * (-f1Normalized(P, G, H)) + λ * (-f0Normalized(P, G, H))
 end
 
 struct FλForP_QAP
@@ -434,7 +437,7 @@ end
 function ∇fλ!(storageλ, storage0, storage1, P, λ, G, H)
     ∇f0Normalized!(storage0, P, G, H)
     ∇f1Normalized!(storage1, P, G, H)
-    return storageλ .= (1.0-λ) .* storage0 .+ λ .* storage1
+    return storageλ .= (1.0 - λ) .* storage0 .+ λ .* storage1
 end
 struct ∇FλForP!
     storage0::Matrix{Float64}
@@ -461,7 +464,7 @@ end
 function ∇fλ_QAP!(storageλ, storage0, storage1, P, λ, G, H)
     ∇f0Normalized!(storage0, P, G, H)
     ∇f1Normalized!(storage1, P, G, H)
-    return storageλ .= (1.0-λ) .* (-storage1) .+ λ .* (-storage0)
+    return storageλ .= (1.0 - λ) .* (-storage1) .+ λ .* (-storage0)
 end
 
 struct ∇FλForP_QAP!
@@ -486,5 +489,5 @@ end
 
 # returns the value of the QAP objective function for a given permutation matrix P and adjacency matrices G and H
 function qapVal(P, G, H)
-    return tr(G*P*H'*P')
+    return tr(G * P * H' * P')
 end

@@ -16,7 +16,7 @@ function maximum_weight_clique!(
     model[Symbol(var_name)] = f
     @constraint(
         model,
-        packing_constraint[i = 1:nv(g), j = 1:nv(g); i ≠ j && !has_edge(g, i, j)],
+        packing_constraint[i=1:nv(g), j=1:nv(g); i ≠ j && !has_edge(g, i, j)],
         f[i] + f[j] <= 1,
     )
     obj = objective_function(model)

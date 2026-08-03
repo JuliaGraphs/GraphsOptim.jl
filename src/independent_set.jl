@@ -16,7 +16,7 @@ function maximum_weight_independent_set!(
     model[Symbol(var_name)] = f
     @constraint(
         model,
-        covering_constraint[i = 1:nv(g), j = 1:nv(g); i ≠ j && has_edge(g, i, j)],
+        covering_constraint[i=1:nv(g), j=1:nv(g); i ≠ j && has_edge(g, i, j)],
         f[i] + f[j] <= 1,
     )
     obj = objective_function(model)
