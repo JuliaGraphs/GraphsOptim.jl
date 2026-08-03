@@ -116,3 +116,9 @@ GraphsOptim.is_permutation_matrix
 GraphsOptim.flat_doubly_stochastic
 GraphsOptim.indvec
 ```
+
+## Path Graph Matching
+
+```@docs
+GraphsOptim.pathAlgorithm
+```
