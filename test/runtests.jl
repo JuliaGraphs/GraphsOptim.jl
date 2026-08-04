@@ -19,7 +19,7 @@ using Test
     end
 
     @testset "Code linting" begin
-        JET.test_package(GraphsOptim; target_defined_modules=true)
+        JET.test_package(GraphsOptim; target_modules=(GraphsOptim,))
     end
 
     @testset "Doctests" begin
