@@ -15,10 +15,11 @@ using JuMP: objective_function, add_to_expression!
 using JuMP: set_silent, optimize!, termination_status, value
 using JuMP: set_optimizer, objective_value
 using JuMP: @variable, @constraint, @objective
-using LinearAlgebra: norm, tr, dot
+using LinearAlgebra: norm, tr, dot, I
 using MathOptInterface: OPTIMAL
 using SparseArrays: sparse
 using OptimalTransport: sinkhorn
+using FrankWolfe
 
 export min_cost_flow
 export min_cost_assignment
@@ -28,6 +29,7 @@ export maximum_weight_independent_set
 export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 export maximum_weight_clique
+export pathAlgorithm
 
 include("utils.jl")
 include("flow.jl")
@@ -38,5 +40,6 @@ include("fractional_coloring.jl")
 include("shortest_path.jl")
 include("maximum_clique.jl")
 include("independent_set.jl")
+include("pathGraphMatching.jl")
 
 end
