@@ -149,11 +149,10 @@ function pathAlgorithm(
         # TODO implemented new stopping criterion. Need to still find out ϵ_f and ϵ_p values from FrankWolfe implementation and calculate ϵ_λ_f and ϵ_λ_p with added input M.
         # d_λ is doubled until one value is larger than it's threshold (or new λ is already 1)
         while abs(
-                      fλNormalizedFinal(p_new, λ_new, G, H) -
-                      fλNormalizedFinal(p_opt, λ, G, H),
-                  ) < ϵ_λ_f &&
-                  p_change_normalized < ϵ_λ_p &&
-                  λ_new < one(Float64)
+                  fλNormalizedFinal(p_new, λ_new, G, H) - fλNormalizedFinal(p_opt, λ, G, H)
+              ) < ϵ_λ_f &&
+              p_change_normalized < ϵ_λ_p &&
+              λ_new < one(Float64)
             dλ = 2 * dλ
             λ_new = min(λ + dλ, one(Float64))
 
@@ -378,8 +377,7 @@ end
 # algorithm uses only normalized version. This is just for plotting and displaying the correct data.
 function f1(P, G, H)
     constantTerm = tr(laplacian(G)^2) + tr(laplacian(H)^2)
-    return .-tr(Δ(G, H)' * P) .- 2.0 .* (vec(P)' * vec(laplacian(G) * P * laplacian(H))) +
-           constantTerm
+    return .-tr(Δ(G, H)' * P) .- 2.0 .* (vec(P)' * vec(laplacian(G) * P * laplacian(H))) + constantTerm
 end
 
 # F1 normalized for values between 0 and 1.
