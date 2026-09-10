@@ -24,6 +24,7 @@ jobs:
       - uses: julia-actions/julia-downgrade-compat@v2
         with:
           skip: Pkg,TOML,InteractiveUtils,Random,LinearAlgebra
+          no_promote: Aqua,Documenter,IterTools,JET,JuliaFormatter
       - uses: julia-actions/cache@v3
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1

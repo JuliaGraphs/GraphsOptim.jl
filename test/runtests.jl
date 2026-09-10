@@ -19,7 +19,7 @@ using Test
     end
 
     @testset "Code linting" begin
-        JET.test_package(GraphsOptim; target_defined_modules=true)
+        JET.test_package(GraphsOptim; target_modules=(GraphsOptim,))
     end
 
     @testset "Doctests" begin
@@ -56,5 +56,9 @@ using Test
 
     @testset verbose = true "Shortest path" begin
         include("shortest_path.jl")
+    end
+
+    @testset "Graph Edit Distance" begin
+        include("graph_edit_distance.jl")
     end
 end;

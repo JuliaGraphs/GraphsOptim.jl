@@ -8,6 +8,7 @@ module GraphsOptim
 using Graphs: AbstractGraph, is_directed
 using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors, has_edge
 using Graphs: complement, maximal_cliques
+using Graphs: SimpleGraph
 using FillArrays: Zeros, Ones, Fill
 using HiGHS: HiGHS
 using JuMP: Model, AffExpr
@@ -15,6 +16,8 @@ using JuMP: objective_function, add_to_expression!
 using JuMP: set_silent, optimize!, termination_status, value
 using JuMP: set_optimizer, objective_value
 using JuMP: @variable, @constraint, @objective
+using JuMP: VariableRef
+using JuMP: num_variables
 using LinearAlgebra: norm, tr, dot
 using MathOptInterface: OPTIMAL
 using SparseArrays: sparse
@@ -29,6 +32,8 @@ export fractional_chromatic_number, fractional_clique_number
 export shortest_path
 export maximum_weight_clique
 
+export edit_distance, F1, F1prime, F1plus, F2, F2minus, F2plus, FORI
+
 include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
@@ -38,5 +43,6 @@ include("fractional_coloring.jl")
 include("shortest_path.jl")
 include("maximum_clique.jl")
 include("independent_set.jl")
+include("graph_edit_distance.jl")
 
 end
