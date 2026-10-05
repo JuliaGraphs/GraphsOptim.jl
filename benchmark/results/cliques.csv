@@ -1,0 +1,65 @@
+problem,n,method,exact,time,value,valid
+maximum weight clique,20,GraphsOptim.jl,true,0.005229667,30,true
+maximum weight clique,20,Graphs.jl (all maximal cliques),true,2.3208e-5,30,true
+maximum weight clique,20,NetworkX,true,9.7625e-5,30,true
+maximum weight clique,40,GraphsOptim.jl,true,0.008800583,50,true
+maximum weight clique,40,Graphs.jl (all maximal cliques),true,0.00045525,50,true
+maximum weight clique,40,NetworkX,true,0.000469417,50,true
+maximum weight clique,60,GraphsOptim.jl,true,0.12414775,58,true
+maximum weight clique,60,Graphs.jl (all maximal cliques),true,0.002720209,58,true
+maximum weight clique,60,NetworkX,true,0.001590375,58,true
+maximum weight clique,80,GraphsOptim.jl,true,0.472089917,62,true
+maximum weight clique,80,Graphs.jl (all maximal cliques),true,0.01433425,62,true
+maximum weight clique,80,NetworkX,true,0.003569958,62,true
+maximum weight clique,100,GraphsOptim.jl,true,0.673361375,69,true
+maximum weight clique,100,Graphs.jl (all maximal cliques),true,0.036809,69,true
+maximum weight clique,100,NetworkX,true,0.006860375,69,true
+maximum weight clique,150,GraphsOptim.jl,true,9.650090583,72,true
+maximum weight clique,150,Graphs.jl (all maximal cliques),true,0.28616475,72,true
+maximum weight clique,150,NetworkX,true,0.041234125,72,true
+maximum weight clique,200,Graphs.jl (all maximal cliques),true,1.738086875,77,true
+maximum weight clique,200,NetworkX,true,0.128025791,77,true
+maximum independent set,25,GraphsOptim.jl,true,0.006057416,10,true
+maximum independent set,25,NetworkX,true,0.000286667,10,true
+maximum independent set,25,Graphs.jl (greedy),false,1.834e-6,9,true
+maximum independent set,25,NetworkX (approximation),false,0.001815875,9,true
+minimum vertex cover,25,GraphsOptim.jl,true,0.013261458,15,true
+minimum vertex cover,25,Graphs.jl (greedy),false,1.75e-6,15,true
+minimum vertex cover,25,Graphs.jl (2-approximation),false,8.33e-7,20,true
+minimum vertex cover,25,NetworkX (2-approximation),false,1.2042e-5,19,true
+maximum independent set,50,GraphsOptim.jl,true,0.022556167,21,true
+maximum independent set,50,NetworkX,true,0.003917417,21,true
+maximum independent set,50,Graphs.jl (greedy),false,3.833e-6,20,true
+maximum independent set,50,NetworkX (approximation),false,0.012148959,19,true
+minimum vertex cover,50,GraphsOptim.jl,true,0.026696042,29,true
+minimum vertex cover,50,Graphs.jl (greedy),false,3.625e-6,31,true
+minimum vertex cover,50,Graphs.jl (2-approximation),false,1.209e-6,42,true
+minimum vertex cover,50,NetworkX (2-approximation),false,2.1667e-5,43,true
+maximum independent set,100,GraphsOptim.jl,true,0.085403709,43,true
+maximum independent set,100,NetworkX,true,0.156261833,43,true
+maximum independent set,100,Graphs.jl (greedy),false,8.042e-6,42,true
+maximum independent set,100,NetworkX (approximation),false,0.079771084,36,true
+minimum vertex cover,100,GraphsOptim.jl,true,0.095529375,57,true
+minimum vertex cover,100,Graphs.jl (greedy),false,6.792e-6,60,true
+minimum vertex cover,100,Graphs.jl (2-approximation),false,2.0e-6,84,true
+minimum vertex cover,100,NetworkX (2-approximation),false,3.9917e-5,77,true
+maximum independent set,200,GraphsOptim.jl,true,1.72203775,87,true
+maximum independent set,200,NetworkX,true,51.697063167,87,true
+maximum independent set,200,Graphs.jl (greedy),false,1.5792e-5,84,true
+maximum independent set,200,NetworkX (approximation),false,0.6465547705000001,71,true
+minimum vertex cover,200,GraphsOptim.jl,true,1.40136925,113,true
+minimum vertex cover,200,Graphs.jl (greedy),false,1.4875e-5,122,true
+minimum vertex cover,200,Graphs.jl (2-approximation),false,3.833e-6,172,true
+minimum vertex cover,200,NetworkX (2-approximation),false,7.6208e-5,156,true
+maximum independent set,400,GraphsOptim.jl,true,29.717599917,176,true
+maximum independent set,400,Graphs.jl (greedy),false,3.7542e-5,173,true
+maximum independent set,400,NetworkX (approximation),false,5.02385325,142,true
+minimum vertex cover,400,GraphsOptim.jl,true,26.432987583,224,true
+minimum vertex cover,400,Graphs.jl (greedy),false,3.2375e-5,239,true
+minimum vertex cover,400,Graphs.jl (2-approximation),false,7.875e-6,334,true
+minimum vertex cover,400,NetworkX (2-approximation),false,0.000166875,319,true
+maximum independent set,800,Graphs.jl (greedy),false,8.5875e-5,350,true
+maximum independent set,800,NetworkX (approximation),false,44.833363959,294,true
+minimum vertex cover,800,Graphs.jl (greedy),false,6.6834e-5,467,true
+minimum vertex cover,800,Graphs.jl (2-approximation),false,1.4459e-5,658,true
+minimum vertex cover,800,NetworkX (2-approximation),false,0.000316708,623,true

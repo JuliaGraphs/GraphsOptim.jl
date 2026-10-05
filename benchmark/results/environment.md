@@ -1,0 +1,4 @@
+- CPU: Apple M4 (single BLAS thread)
+- Julia 1.11.7, GraphsOptim.jl at commit `7f42780-dirty`
+- Graphs.jl 1.15.0, JuMP.jl 1.32.0, HiGHS.jl 1.26.0
+- Python 3.12.14, graspologic 3.4.4, NetworkX 3.7, SciPy 1.17.1

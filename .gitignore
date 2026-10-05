@@ -6,3 +6,5 @@
 # /docs/Manifest.toml
 /docs/src/index.md
 .vscode/
+/benchmark/Manifest.toml
+/benchmark/.CondaPkg/
