@@ -17,10 +17,11 @@ using JuMP: set_silent, optimize!, termination_status, value
 using JuMP: set_optimizer, objective_value
 using JuMP: @variable, @constraint, @objective
 using JuMP: VariableRef
-using JuMP: num_variables
-using LinearAlgebra: norm, tr, dot
+using JuMP: num_variables, backend, index
+using LinearAlgebra: norm, dot, mul!, issymmetric
 using MathOptInterface: OPTIMAL
-using SparseArrays: sparse
+import MathOptInterface as MOI
+using SparseArrays: sparse, SparseMatrixCSC, rowvals, nonzeros, nzrange
 using OptimalTransport: sinkhorn
 
 export min_cost_flow
