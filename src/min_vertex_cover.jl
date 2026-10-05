@@ -61,7 +61,7 @@ function min_vertex_cover(g::AbstractGraph; integer::Bool=true, optimizer=HiGHS.
     @assert termination_status(model) == OPTIMAL
 
     cover_values = Vector(value.(model[:cover]))
-    cover_vertices = findall(==(1), cover_values)
+    cover_vertices = findall(>(0.5), cover_values)
 
     return cover_vertices
 end

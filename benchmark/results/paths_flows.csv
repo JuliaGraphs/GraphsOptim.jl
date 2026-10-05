@@ -1,0 +1,42 @@
+problem,n,library,time,value
+shortest path,100,GraphsOptim.jl,0.027957459,94
+shortest path,100,Graphs.jl,7.291e-6,94
+min-cost flow,100,GraphsOptim.jl,0.00401075,7439.0
+min-cost flow,100,NetworkX,0.001786333043128252,7439.0
+shortest path,200,GraphsOptim.jl,0.049725583,80
+shortest path,200,Graphs.jl,1.6042e-5,80
+min-cost flow,200,GraphsOptim.jl,0.008109,8886.0
+min-cost flow,200,NetworkX,0.004978209035471082,8886.0
+shortest path,500,GraphsOptim.jl,0.122681625,104
+shortest path,500,Graphs.jl,4.6042e-5,104
+min-cost flow,500,GraphsOptim.jl,0.019684875,27758.0
+min-cost flow,500,NetworkX,0.024996375082992017,27758.0
+shortest path,1000,GraphsOptim.jl,0.2698078955,99
+shortest path,1000,Graphs.jl,0.000129417,99
+min-cost flow,1000,GraphsOptim.jl,0.0498085,45466.0
+min-cost flow,1000,NetworkX,0.05041183403227478,45466.0
+shortest path,2000,GraphsOptim.jl,0.5496791875,115
+shortest path,2000,Graphs.jl,0.000293375,115
+min-cost flow,2000,GraphsOptim.jl,0.131062833,99730.0
+min-cost flow,2000,NetworkX,0.1522331249434501,99730.0
+assignment,10,GraphsOptim.jl (JuMP),0.000908083,1.329931040873881
+assignment,10,GraphsOptim.jl (native),4.16e-7,1.329931040873881
+assignment,10,SciPy,1.166015863418579e-6,1.329931040873881
+assignment,20,GraphsOptim.jl (JuMP),0.00160425,1.3003183211649092
+assignment,20,GraphsOptim.jl (native),2.208e-6,1.3003183211649094
+assignment,20,SciPy,2.5830231606960297e-6,1.3003183211649094
+assignment,50,GraphsOptim.jl (JuMP),0.008272917,1.9305540673944215
+assignment,50,GraphsOptim.jl (native),1.2875e-5,1.9305540673944213
+assignment,50,SciPy,1.537497155368328e-5,1.9305540673944213
+assignment,100,GraphsOptim.jl (JuMP),0.03232875,1.5128939402479162
+assignment,100,GraphsOptim.jl (native),6.7375e-5,1.512893940247916
+assignment,100,SciPy,9.674998000264168e-5,1.512893940247916
+assignment,200,GraphsOptim.jl (JuMP),0.132599375,1.5860871489206083
+assignment,200,GraphsOptim.jl (native),0.000465416,1.5860871489206085
+assignment,200,SciPy,0.0005424169357866049,1.5860871489206085
+assignment,500,GraphsOptim.jl (JuMP),1.071073375,1.6176870888569141
+assignment,500,GraphsOptim.jl (native),0.004723708,1.617687088856912
+assignment,500,SciPy,0.004273458034731448,1.617687088856912
+assignment,1000,GraphsOptim.jl (JuMP),4.389844625,1.6825274033896138
+assignment,1000,GraphsOptim.jl (native),0.024060917,1.6825274033896118
+assignment,1000,SciPy,0.024344166042283177,1.6825274033896118

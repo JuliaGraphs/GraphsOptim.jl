@@ -1,0 +1,7 @@
+[deps]
+python = "3.12.*"
+
+[pip.deps]
+graspologic = "==3.4.4"
+networkx = ">=3.0"
+scipy = ">=1.10"

@@ -59,6 +59,7 @@ A special case of minimum cost flow without edge capacities, and where vertex de
 ```@docs
 min_cost_assignment
 GraphsOptim.min_cost_assignment!
+GraphsOptim.linear_sum_assignment
 ```
 
 ## Minimum Vertex Cover

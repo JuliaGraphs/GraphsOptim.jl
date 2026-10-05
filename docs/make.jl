@@ -31,7 +31,11 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://juliagraphs.org/GraphsOptim.jl",
     ),
-    pages=["Home" => "index.md", "Algorithms" => "algorithms.md"],
+    pages=[
+        "Home" => "index.md",
+        "Algorithms" => "algorithms.md",
+        "Benchmarks" => "benchmarks.md",
+    ],
 )
 
 deploydocs(;
