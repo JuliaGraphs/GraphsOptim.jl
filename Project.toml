@@ -14,7 +14,7 @@ OptimalTransport = "7e02d93a-ae51-4f58-b602-d97af76e3b33"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
-Aqua = "0.6"
+Aqua = "0.6, 0.8"
 Documenter = "0.27"
 FillArrays = "0.13, 1.15"
 Graphs = "1.7"
