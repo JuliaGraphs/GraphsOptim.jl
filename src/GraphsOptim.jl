@@ -6,7 +6,8 @@ A package for graph optimization algorithms that rely on mathematical programmin
 module GraphsOptim
 
 using Graphs: AbstractGraph, is_directed
-using Graphs: vertices, edges, nv, ne, src, dst, inneighbors, outneighbors, has_edge
+using Graphs: adjacency_matrix, vertices, edges, nv, ne, src, dst
+using Graphs: inneighbors, outneighbors, has_edge
 using Graphs: complement, maximal_cliques
 using Graphs: SimpleGraph
 using FillArrays: Zeros, Ones, Fill
@@ -19,13 +20,14 @@ using JuMP: @variable, @constraint, @objective
 using JuMP: VariableRef
 using JuMP: num_variables
 using LinearAlgebra: norm, tr, dot
-using MathOptInterface: OPTIMAL
+using MathOptInterface: OPTIMAL, INFEASIBLE
 using SparseArrays: sparse
 using OptimalTransport: sinkhorn
 
 export min_cost_flow
 export min_cost_assignment
 export FAQ, GOAT, graph_matching
+export graph_isomorphim
 export min_vertex_cover
 export maximum_weight_independent_set
 export fractional_chromatic_number, fractional_clique_number
@@ -38,6 +40,7 @@ include("utils.jl")
 include("flow.jl")
 include("assignment.jl")
 include("graph_matching.jl")
+include("graph_isomorphism.jl")
 include("min_vertex_cover.jl")
 include("fractional_coloring.jl")
 include("shortest_path.jl")

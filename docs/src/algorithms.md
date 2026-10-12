@@ -98,6 +98,35 @@ graph_matching
 GraphsOptim.graph_matching_step_size
 ```
 
+## Graph isomorphism
+
+```@docs
+graph_isomorphim
+```
+
+`graph_isomorphim` supports:
+
+- undirected graphs, including `SimpleGraph`;
+- directed graphs, including `SimpleDiGraph`;
+- weighted graphs, including `SimpleWeightedGraph` and
+  `SimpleWeightedDiGraph` from SimpleWeightedGraphs.jl.
+
+For weighted graphs, two graphs are isomorphic only when the vertex mapping
+preserves both their edges and their edge weights. Directed and undirected
+graphs are not considered isomorphic to each other.
+
+For adjacency matrices `A` and `B`, the mixed-integer formulation searches for a
+permutation matrix `X` satisfying
+
+```math
+A X = X B.
+```
+
+The row and column sums of `X` are constrained to one. Therefore, `X` describes
+a bijection between the vertices, and the matrix equality ensures that it
+preserves adjacency. For weighted graph types whose `adjacency_matrix` stores
+edge weights, the isomorphism preserves those weights too.
+
 ## Graph edit distance
 ```@docs
 GraphsOptim.edit_distance
